@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/start_main_layout"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+        <Button
+                android:text="@string/sell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/btSell"
+                android:background="@color/primary_yellow"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="2dp"
+                android:visibility="gone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+        <Button
+                android:text="@string/finances"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/btFinances"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="2dp"
+                android:visibility="gone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+        <Button
+                android:text="@string/goods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/btGoods"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="2dp"
+                android:visibility="gone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+        <Button
+                android:text="@string/points"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/btPoints"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="2dp"
+                android:visibility="gone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+        <Button
+                android:text="@string/providers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/btProviders"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="2dp"
+                android:visibility="gone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+        <Button
+                android:text="@string/workers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/btWorkers"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="2dp"
+                android:visibility="gone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+        <Button
+                android:text="@string/users"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/btUsers"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="2dp"
+                android:visibility="gone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+        <Button
+                android:text="@string/scanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/btScanner"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="2dp"
+                android:visibility="visible"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+</LinearLayout>

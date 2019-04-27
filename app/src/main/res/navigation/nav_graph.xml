@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/nav_graph" app:startDestination="@id/mainFragment2">
+
+    <fragment android:id="@+id/mainFragment2" android:name="ofat.my.ofat.ui.main.MainFragment"
+              android:label="MainFragment">
+        <action android:id="@+id/action_mainFragment2_to_menuFragment" app:destination="@id/menuFragment"/>
+    </fragment>
+
+    <fragment android:id="@+id/menuFragment" android:name="ofat.my.ofat.ui.main.menu.MenuFragment"
+              android:label="MenuFragment">
+        <action android:id="@+id/action_menuFragment_to_usersFragment" app:destination="@id/usersFragment"/>
+        <action android:id="@+id/action_menuFragment_to_scannerActivity" app:destination="@id/scannerActivity"/>
+        <action android:id="@+id/action_menuFragment_to_financesFragment" app:destination="@id/financesFragment"/>
+        <action android:id="@+id/action_menuFragment_to_goodsFragment" app:destination="@id/goodsFragment"/>
+    </fragment>
+
+    <fragment android:id="@+id/financesFragment" android:name="ofat.my.ofat.ui.main.fin.FinancesFragment"
+              android:label="FinancesFragment"/>
+
+    <fragment android:id="@+id/goodsFragment" android:name="ofat.my.ofat.ui.main.goods.GoodsFragment"
+              android:label="GoodsFragment">
+        <argument android:name="barcode"/>
+    </fragment>
+
+    <fragment android:id="@+id/usersFragment" android:name="ofat.my.ofat.ui.main.users.UsersFragment"
+              android:label="UsersFragment"/>
+
+    <fragment android:id="@+id/fragment_cart" android:name="ofat.my.ofat.ui.main.transaction.CartFragment"
+              android:label="CartFragment"/>
+
+    <fragment android:id="@+id/scannerFragment" android:name="ofat.my.ofat.ui.main.photo.DefaultScannerFragment"
+              android:label="DefaultScannerFragment"/>
+
+    <fragment android:id="@+id/transactionFragment" android:name="ofat.my.ofat.ui.main.transaction.TransactionFragment"
+              android:label="TransactionFragment"/>
+
+    <fragment android:id="@+id/transactionStatusFragment" android:name="ofat.my.ofat.ui.main.transaction.TxStatusTypeFragment"
+              android:label="TxStatusTypeFragment"/>
+
+    <fragment android:id="@+id/fastTxScFragment" android:name="ofat.my.ofat.ui.main.transaction.FastTxScFragment"
+              android:label="FastTxScFragment"/>
+
+    <fragment android:id="@+id/fastTxCartQuantityFragment" android:name="ofat.my.ofat.ui.main.transaction.CartQuantityFragment"
+              android:label="CartQuantityFragment">
+        <action android:id="@+id/from_QCart_To_Cart" app:destination="@id/fragment_cart"/>
+    </fragment>
+
+    <fragment android:id="@+id/foundGoodFragment" android:name="ofat.my.ofat.ui.main.goods.FoundGoodFragment"
+              android:label="FoundGoodFragment">
+        <argument android:name="goodId"/>
+    </fragment>
+
+    <fragment android:id="@+id/foundListFragment" android:name="ofat.my.ofat.ui.main.FoundListFragment"
+              android:label="FoundListFragment">
+        <action android:id="@+id/action_foundListFragment_to_foundGoodFragment4"
+                app:destination="@id/foundGoodFragment"/>
+    </fragment>
+
+    <activity android:id="@+id/scannerActivity" android:name="ofat.my.ofat.ui.main.photo.TakeBarcodeActivity"
+                                                         android:label="ScannerActivity"/>
+
+    <activity android:id="@+id/gms_scannerActivity" android:name="ofat.my.ofat.ui.main.photo.GMScanerActivity"
+              android:label="GMScanerActivity"/>
+</navigation>

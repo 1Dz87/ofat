@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+                android:id="@+id/nav_login"
+                android:title="@string/login" />
+                <!--android:icon="@drawable/ic_menu_camera"-->
+        <item
+                android:id="@+id/nav_main"
+                android:title="@string/main"
+                android:visible="false"
+                android:onClick="onMenuClick"/>
+        <item
+                android:id="@+id/nav_sell"
+                android:title="@string/sell"
+                android:visible="false"
+                android:onClick="onMenuClick"/>
+
+        <item
+                android:id="@+id/nav_scanner"
+                android:title="@string/scanner"
+                android:visible="false"
+                android:onClick="onMenuClick"/>
+
+        <item
+                android:id="@+id/nav_finances"
+                android:title="@string/finances"
+                android:visible="false"
+                android:onClick="onMenuClick"/>
+        <!--android:icon="@drawable/ic_menu_slideshow"-->
+        <item
+                android:id="@+id/nav_goods"
+                android:title="@string/goods"
+                android:visible="false"
+                android:onClick="onMenuClick"/>
+        <!--android:icon="@drawable/ic_menu_slideshow"-->
+        <item
+                android:id="@+id/nav_points"
+                android:title="@string/points"
+                android:visible="false"
+                android:onClick="onMenuClick"/>
+        <!--android:icon="@drawable/ic_menu_slideshow"-->
+        <item
+                android:id="@+id/nav_providers"
+                android:title="@string/providers"
+                android:visible="false"
+                android:onClick="onMenuClick"/>
+        <!--android:icon="@drawable/ic_menu_slideshow"-->
+        <item
+                android:id="@+id/nav_workers"
+                android:title="@string/workers"
+                android:visible="false"
+                android:onClick="onMenuClick"/>
+        <!--android:icon="@drawable/ic_menu_slideshow"-->
+        <item
+                android:id="@+id/nav_users"
+                android:title="@string/users"
+                android:onClick="onMenuClick"/>
+        <!--android:icon="@drawable/ic_menu_slideshow"-->
+        <item
+                android:id="@+id/nav_about"
+                android:title="@string/about"
+                android:onClick="onMenuClick"/>
+                <!--android:icon="@drawable/ic_menu_gallery"-->
+        <item
+                android:id="@+id/nav_exit"
+                android:title="@string/exit"
+                android:onClick="onMenuClick"/>
+                <!--android:icon="@drawable/ic_menu_slideshow"-->
+    </group>
+</menu>
