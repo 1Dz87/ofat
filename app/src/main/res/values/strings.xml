@@ -68,5 +68,7 @@
     <string name="price_per_unit">Цена за ед.</string>
     <string name="quanSTX">Кол-во</string>
     <string name="total">Итого</string>
+    <string name="good_table_name">Наименование</string>
+    <string name="data_enter">Ввод данных</string>
 
 </resources>

@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import ofat.my.ofat.MainActivity
 import ofat.my.ofat.R
 import ofat.my.ofat.Util.ExtractUtil
 import ofat.my.ofat.Util.OfatConstants
@@ -40,6 +41,7 @@ class CartQuantityFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_cart_quantity, container, false)
+        (activity as MainActivity).setCurrentTitle(R.string.data_enter)
         good = arguments?.getParcelable("good")
         headerTV = view.findViewById(R.id.cartGoodHeader)
         headerTV?.text = good?.name
@@ -52,22 +54,30 @@ class CartQuantityFragment : Fragment() {
         return view
     }
 
+    private fun writeToViewModel() {
+        if (UtilUI.checkTextFields(arrayOf(quantity!!, price!!))) {
+            val txQuantity = ExtractUtil.v(quantity!!)?.toDouble()!!
+            val txPrice = ExtractUtil.v(price!!)?.toDouble()!!
+            viewModel?.getBuyCart()?.value!![good!!] = Pair<Double, Double>(txQuantity, txPrice)
+        }
+    }
+
     private fun initButtons() {
         backBt?.setOnClickListener {
+            writeToViewModel()
             view?.findNavController()?.navigateUp()
         }
         toCartBt?.setOnClickListener {
-            if (UtilUI.checkTextFields(arrayOf(quantity!!, price!!))) {
-                val txQuantity = ExtractUtil.v(quantity!!)?.toDouble()!!
-                val txPrice = ExtractUtil.v(price!!)?.toDouble()!!
-                viewModel?.getBuyCart()?.value!![good!!] = Pair<Double, Double>(txQuantity, txPrice)
-                view?.findNavController()?.navigate(R.id.fragment_cart)
-            }
+            writeToViewModel()
+            val navigator = view?.findNavController()
+            navigator?.popBackStack(R.id.fastTxScFragment, false)
+            view?.findNavController()?.navigate(R.id.fragment_cart)
         }
         view?.setOnKeyListener(View.OnKeyListener { _, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_BACK) {
                 val dialog = this.let {
-                    AlertDialog.Builder(it.context) }
+                    AlertDialog.Builder(it.context)
+                }
                 dialog.setTitle("Выход")
                 dialog.setMessage("Выйти без сохранения?")
                 dialog.setPositiveButton(OfatConstants.YES) { dialog1, _ ->
@@ -78,7 +88,7 @@ class CartQuantityFragment : Fragment() {
                 }
                 dialog.setNegativeButton(OfatConstants.NO) { dialog1, _ ->
                     dialog1.dismiss()
-                    }
+                }
                 dialog.show()
             }
             false
@@ -89,6 +99,4 @@ class CartQuantityFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(GoodViewModel::class.java)
     }
-
-
 }

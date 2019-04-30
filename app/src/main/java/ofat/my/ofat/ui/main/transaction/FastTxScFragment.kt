@@ -25,6 +25,8 @@ import ofat.my.ofat.ui.main.FoundListViewModel
 import ofat.my.ofat.ui.main.goods.GoodViewModel
 import timber.log.Timber
 import android.view.LayoutInflater
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import ofat.my.ofat.Util.CollectionUtils
 import ofat.my.ofat.model.Good
 import ofat.my.ofat.persistence.OfatDatabase
 
@@ -43,9 +45,7 @@ class FastTxScFragment : Fragment() {
 
     lateinit var goodViewModel: GoodViewModel
 
-    lateinit var cart: MutableMap<Good, Int>
-
-    private var handler: Handler? = null
+    lateinit var toCartBt: FloatingActionButton
 
     private var textHandler: Handler? = null
 
@@ -58,7 +58,14 @@ class FastTxScFragment : Fragment() {
                 Toast.makeText(this@FastTxScFragment.context, message.obj as String, Toast.LENGTH_SHORT).show()
             }
         }
-        cart = mutableMapOf()
+        toCartBt = view.findViewById(R.id.btToCart)
+        toCartBt.setOnClickListener {
+            if (CollectionUtils.mapIsEmpty(goodViewModel.getBuyCart().value)) {
+                textHandler?.obtainMessage(0, "Корзина пуста.")
+            } else {
+                view.findNavController().navigate(R.id.fragment_cart)
+            }
+        }
         return view
     }
 

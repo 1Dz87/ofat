@@ -18,9 +18,7 @@ import ofat.my.ofat.OfatApplication
 import ofat.my.ofat.R
 import ofat.my.ofat.Util.ExtractUtil
 import ofat.my.ofat.Util.OfatConstants
-import ofat.my.ofat.Util.StringUtils
 import ofat.my.ofat.Util.UtilUI
-import ofat.my.ofat.api.response.CreateUserResponse
 import ofat.my.ofat.api.response.TransactionResponse
 import ofat.my.ofat.model.Good
 import ofat.my.ofat.model.Transaction
@@ -117,7 +115,7 @@ class TransactionFragment : Fragment() {
         btTx?.setOnClickListener {
             if (UtilUI.checkTextFields(arrayOf(good_ET!!, price_ET!!, date_ET!!, time_ET!!, quantity_ET!!))) {
                 val request = fillTxRequest()
-                val call = OfatApplication.txApi?.addClient(request)
+                val call = OfatApplication.txApi?.doTransact(request)
                 UtilUI.showProgress(progress!!)
                 call?.enqueue(object : Callback<TransactionResponse> {
                     override fun onFailure(call: Call<TransactionResponse>, t: Throwable) {

@@ -9,5 +9,8 @@ import retrofit2.http.POST
 interface TxApi {
 
     @POST("doTransact")
-    fun addClient(@Body tx: Transaction): Call<TransactionResponse>
+    fun doTransact(@Body tx: Transaction): Call<TransactionResponse>
+
+    @POST("multipleTransaction")
+    fun multipleTransaction(@Body txs: Set<Transaction>) : Call<TransactionResponse>
 }

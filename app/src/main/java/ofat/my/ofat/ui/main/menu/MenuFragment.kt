@@ -16,6 +16,7 @@ import ofat.my.ofat.model.Good
 import ofat.my.ofat.model.ShortView
 import ofat.my.ofat.ui.main.FoundListViewModel
 import ofat.my.ofat.ui.main.MainViewModel
+import ofat.my.ofat.ui.main.goods.GoodViewModel
 
 
 class MenuFragment : androidx.fragment.app.Fragment() {
@@ -40,6 +41,8 @@ class MenuFragment : androidx.fragment.app.Fragment() {
 
     var foundModel: FoundListViewModel? = null
 
+    var goodViewModel: GoodViewModel? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,6 +59,7 @@ class MenuFragment : androidx.fragment.app.Fragment() {
         activity?.let {
             mainModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
             foundModel = ViewModelProviders.of(activity!!).get(FoundListViewModel::class.java)
+            goodViewModel = ViewModelProviders.of(activity!!).get(GoodViewModel::class.java)
         }
     }
 
@@ -92,7 +96,9 @@ class MenuFragment : androidx.fragment.app.Fragment() {
         btScanner.setOnClickListener { view.findNavController().navigate(R.id.scannerFragment) }
 
         btSell = view.findViewById(R.id.btSell)
-        btSell.setOnClickListener { view.findNavController().navigate(R.id.fastTxScFragment) }
+        btSell.setOnClickListener {
+            goodViewModel?.clearCart()
+            view.findNavController().navigate(R.id.fastTxScFragment) }
     }
 
 }

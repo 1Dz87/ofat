@@ -30,6 +30,10 @@ class GoodViewModel : ViewModel() {
         }
     }
 
+    fun clearCart() {
+        cart.value?.clear()
+    }
+
     fun getCurrentGood(id: Long?): MutableLiveData<Good> {
         if (id == null) throw OfatCommonException("Unexpected error")
         return if (currentGood.value == null || currentGood.value?.id != id) {
