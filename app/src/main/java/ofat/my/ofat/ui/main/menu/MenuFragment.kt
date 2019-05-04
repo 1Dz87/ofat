@@ -1,10 +1,13 @@
 package ofat.my.ofat.ui.main.menu
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
@@ -14,6 +17,7 @@ import ofat.my.ofat.OfatApplication
 import ofat.my.ofat.Util.Module
 import ofat.my.ofat.model.Good
 import ofat.my.ofat.model.ShortView
+import ofat.my.ofat.permission.requestCameraPermission
 import ofat.my.ofat.ui.main.FoundListViewModel
 import ofat.my.ofat.ui.main.MainViewModel
 import ofat.my.ofat.ui.main.goods.GoodViewModel
@@ -93,12 +97,32 @@ class MenuFragment : androidx.fragment.app.Fragment() {
         btUsers.setOnClickListener { view.findNavController().navigate(R.id.usersFragment) }
 
         btScanner = view.findViewById(R.id.btScanner)
-        btScanner.setOnClickListener { view.findNavController().navigate(R.id.scannerFragment) }
+        btScanner.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(
+                    this.activity!!,
+                    Manifest.permission.CAMERA
+                ) !== PackageManager.PERMISSION_GRANTED
+            ) {
+                requestCameraPermission(this.activity!!)
+            } else {
+                view.findNavController().navigate(R.id.scannerFragment)
+            }
+
+        }
 
         btSell = view.findViewById(R.id.btSell)
         btSell.setOnClickListener {
-            goodViewModel?.clearCart()
-            view.findNavController().navigate(R.id.fastTxScFragment) }
+            if (ContextCompat.checkSelfPermission(
+                    this.activity!!,
+                    Manifest.permission.CAMERA
+                ) !== PackageManager.PERMISSION_GRANTED
+            ) {
+                requestCameraPermission(this.activity!!)
+            } else {
+                goodViewModel?.clearCart()
+                view.findNavController().navigate(R.id.fastTxScFragment)
+            }
+        }
     }
 
 }

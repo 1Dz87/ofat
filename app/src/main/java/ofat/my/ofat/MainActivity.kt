@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -21,6 +20,7 @@ import ofat.my.ofat.ui.main.goods.GoodViewModel
 import timber.log.Timber
 import androidx.core.view.GravityCompat
 import androidx.navigation.Navigation
+import ofat.my.ofat.permission.requestCameraPermission
 
 class MainActivity : AppCompatActivity() {
 

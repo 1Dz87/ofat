@@ -77,6 +77,7 @@ class OfatApplication : Application() {
         authApi = retrofit?.create<AuthApi>(AuthApi::class.java)
         userApi = retrofit?.create<UserApi>(UserApi::class.java)
         goodApi = retrofit?.create<GoodsApi>(GoodsApi::class.java)
+        txApi = retrofit?.create<TxApi>(TxApi::class.java)
     }
 
     private fun getCurrentLocale(context: Context): Locale {

@@ -196,9 +196,10 @@ object UtilUI {
                         editText.setText("")
                     } else {
                         val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
-                        imm!!.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT)
+                        imm!!.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+
                     }
-                    return true
+                    return false
                 }
                 return false
             }

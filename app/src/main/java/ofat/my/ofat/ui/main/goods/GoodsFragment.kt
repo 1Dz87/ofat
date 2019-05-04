@@ -81,6 +81,8 @@ class GoodsFragment : Fragment() {
 
     private var good: Good? = null
 
+    private var fromFast = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -88,6 +90,7 @@ class GoodsFragment : Fragment() {
         val view = inflater.inflate(R.layout.goods_fragment, container, false)
         (activity as MainActivity).setCurrentTitle(R.string.goods)
         barcode = arguments?.getString("barcode")
+        fromFast = arguments?.getBoolean("fromFast") ?: false
         goodViewModel = ViewModelProviders.of(this).get(GoodViewModel::class.java)
         goodViewModel.barcode.observe(this, Observer<String> {
             if (it != null) {
@@ -145,6 +148,9 @@ class GoodsFragment : Fragment() {
         addGoodBT?.setOnClickListener {
             processRequestAdd()
         }
+        if (fromFast) {
+            addGoodBT?.hide()
+        }
 
         searchGoodBT = view.findViewById(R.id.searchGood)
         searchGoodBT?.setOnClickListener {
@@ -184,7 +190,9 @@ class GoodsFragment : Fragment() {
             ) {
                 if (response.body() != null && response.body()?.success != null) {
                     foundListViewModel.foundList.value = response.body()?.success as MutableCollection<ShortView>
-                    view?.findNavController()?.navigate(R.id.foundListFragment)
+                    val bundle = Bundle()
+                    bundle.putBoolean("fromFast", fromFast)
+                    view?.findNavController()?.navigate(R.id.foundListFragment, bundle)
                 } else if (response.body() != null && response.body()?.errors != null) {
                     Toast.makeText(context, response.body()?.errors, Toast.LENGTH_SHORT).show()
                 } else {

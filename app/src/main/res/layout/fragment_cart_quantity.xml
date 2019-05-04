@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_shopping_cart_black_24dp"
                 app:backgroundTint="@color/colorPrimary"
-                android:layout_marginStart="200dp" app:useCompatPadding="true"/>
+                android:layout_marginStart="180dp" app:useCompatPadding="true"/>
 
     </LinearLayout>
 </LinearLayout>

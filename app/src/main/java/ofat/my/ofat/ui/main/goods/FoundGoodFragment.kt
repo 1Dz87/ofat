@@ -53,6 +53,7 @@ class FoundGoodFragment : Fragment() {
     var btTransaction: FloatingActionButton? = null
 
     var good: Good? = null
+    var fromFast = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,6 +74,7 @@ class FoundGoodFragment : Fragment() {
         })
         (activity as MainActivity).setCurrentTitle(R.string.foundGood_header)
         val id = arguments?.getString("goodId")!!.toLong()
+        fromFast = arguments?.getBoolean("fromFast") ?: false
         loadCurrGood(id)
     }
 
@@ -112,6 +114,11 @@ class FoundGoodFragment : Fragment() {
         btEditGood = view.findViewById(R.id.editGood)
         btEditGood?.setOnClickListener{ this@FoundGoodFragment.findNavController().navigate(R.id.goodsFragment, bundle) }
 
+        if (fromFast) {
+            btDeleteGood?.hide()
+            btEditGood?.hide()
+        }
+
         btTransaction = view.findViewById(R.id.transactionBt)
         btTransaction?.setOnClickListener{ makeTransaction() }
     }
@@ -119,7 +126,13 @@ class FoundGoodFragment : Fragment() {
     private fun makeTransaction() {
         val bundle = Bundle()
         bundle.putParcelable("good", good)
-        view?.findNavController()?.navigate(R.id.transactionStatusFragment, bundle)
+        if (fromFast) {
+            val navigator = view?.findNavController()
+            navigator?.popBackStack(R.id.fastTxScFragment, false)
+            navigator?.navigate(R.id.fastTxCartQuantityFragment, bundle)
+        } else {
+            view?.findNavController()?.navigate(R.id.transactionStatusFragment, bundle)
+        }
     }
 
     private fun deleteGood() {

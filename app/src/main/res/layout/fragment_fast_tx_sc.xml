@@ -10,6 +10,15 @@
                   android:gravity="bottom" android:layout_alignBottom="@+id/surfaceView"
                   android:layout_alignEnd="@+id/surfaceView">
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btFind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_search_black_24dp"
+                android:layout_marginTop="5dp"
+                app:backgroundTint="@color/colorPrimary" android:layout_marginRight="110dp"
+                android:layout_marginBottom="30dp"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btToCart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

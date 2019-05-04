@@ -29,11 +29,14 @@ class FoundListFragment : Fragment() {
 
     private lateinit var table: TableLayout
 
+    var fromFast = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.found_list_fragment, container, false)
+        fromFast = arguments?.getBoolean("fromFast") ?: false
         return view
     }
 
@@ -75,6 +78,7 @@ class FoundListFragment : Fragment() {
         textView.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("goodId", currElement.id.toString())
+            bundle.putBoolean("fromFast", fromFast)
             view?.findNavController()?.navigate(R.id.foundGoodFragment, bundle)
         }
         textView.id = index

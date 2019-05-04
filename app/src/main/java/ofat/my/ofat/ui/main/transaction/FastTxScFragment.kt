@@ -1,7 +1,9 @@
 package ofat.my.ofat.ui.main.transaction
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -25,9 +27,11 @@ import ofat.my.ofat.ui.main.FoundListViewModel
 import ofat.my.ofat.ui.main.goods.GoodViewModel
 import timber.log.Timber
 import android.view.LayoutInflater
+import androidx.core.content.ContextCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ofat.my.ofat.Util.CollectionUtils
 import ofat.my.ofat.model.Good
+import ofat.my.ofat.permission.requestCameraPermission
 import ofat.my.ofat.persistence.OfatDatabase
 
 
@@ -47,6 +51,8 @@ class FastTxScFragment : Fragment() {
 
     lateinit var toCartBt: FloatingActionButton
 
+    lateinit var btFind: FloatingActionButton
+
     private var textHandler: Handler? = null
 
     private var good: Good? = null
@@ -65,6 +71,12 @@ class FastTxScFragment : Fragment() {
             } else {
                 view.findNavController().navigate(R.id.fragment_cart)
             }
+        }
+        btFind = view.findViewById(R.id.btFind)
+        btFind.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putBoolean("fromFast", true)
+            view.findNavController().navigate(R.id.goodsFragment, bundle)
         }
         return view
     }

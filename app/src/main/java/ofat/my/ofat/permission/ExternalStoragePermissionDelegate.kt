@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat
 
 private object REQUEST_CODE {
     fun value() : Int = 2
+    fun camValue() : Int = 3
 }
 
 fun isExternalStorageWritable(): Boolean {
@@ -15,4 +16,8 @@ fun isExternalStorageWritable(): Boolean {
 
 fun requestExternalStoragePermission(activity: Activity) {
     ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_CODE.value())
+}
+
+fun requestCameraPermission(activity: Activity) {
+    ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.CAMERA), REQUEST_CODE.camValue())
 }

@@ -80,10 +80,12 @@ class CartFragment : Fragment() {
         UtilUI.showProgress(progress!!)
         call?.enqueue(object : Callback<TransactionResponse> {
             override fun onFailure(call: Call<TransactionResponse>, t: Throwable) {
+                UtilUI.showProgress(progress!!)
                 Toast.makeText(context, OfatConstants.ON_FAILURE_ERROR, Toast.LENGTH_SHORT).show()
             }
 
             override fun onResponse(call: Call<TransactionResponse>, response: Response<TransactionResponse>) {
+                UtilUI.showProgress(progress!!)
                 if (response.body() != null && response.body()?.success != null) {
                     Toast.makeText(context, "Транзакция завершена", Toast.LENGTH_LONG).show()
                     viewModel?.clearCart()
