@@ -19,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.util.*
 import android.os.Build
+import ofat.my.ofat.model.User
 
 class OfatApplication : Application() {
 
@@ -32,6 +33,7 @@ class OfatApplication : Application() {
         var LOCALE: Locale? = Locale.UK
         val modules: Properties = Properties()
         val MODULES = "modules"
+        var currentUser: User? = null
         val sharedStore: MutableMap<String, Any> = mutableMapOf()
     }
 

@@ -148,24 +148,26 @@ class TransactionFragment : Fragment() {
         }
     }
 
-    private fun fillTxRequest(): Transaction {
-        val request = Transaction()
+    private fun fillTxRequest(): Set<Transaction> {
+        val request = HashSet<Transaction>()
+        val tx = Transaction()
         if (UtilUI.checkTextFields(arrayOf(quantity_ET!!, price_ET!!))) {
-            request.good = good
-            request.price = ExtractUtil.v(price_ET!!)?.toDouble()
-            request.date = parseDate()
-            request.status = status
-            request.quantity = ExtractUtil.v(quantity_ET!!)?.toDouble()
-            request.type = type
+            tx.good = good
+            tx.price = ExtractUtil.v(price_ET!!)?.toDouble()
+            tx.date = parseDate()
+            tx.status = status
+            tx.quantity = ExtractUtil.v(quantity_ET!!)?.toDouble()
+            tx.type = type
             //TODO: set the partner
         }
+        request.add(tx)
         return request
     }
 
     @SuppressLint("SimpleDateFormat")
     private fun parseDate(): Date? {
-        val dateString = ExtractUtil.v(date_ET!!) + ": " + ExtractUtil.v(time_ET!!)
-        val parser = SimpleDateFormat("dd.MM.yyyy: " + DateUtils.FORMAT_SHOW_TIME)
+        val dateString = "${ExtractUtil.v(date_ET!!)} ${ExtractUtil.v(time_ET!!)}"
+        val parser = SimpleDateFormat("dd.MM.yyyy HH:mm", OfatApplication.LOCALE)
         return parser.parse(dateString)
     }
 

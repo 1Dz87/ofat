@@ -1,8 +1,10 @@
 package ofat.my.ofat.ui.main.menu
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +25,25 @@ import ofat.my.ofat.ui.main.MainViewModel
 import ofat.my.ofat.ui.main.goods.GoodViewModel
 
 
-class MenuFragment : androidx.fragment.app.Fragment() {
+class MenuFragment : androidx.fragment.app.Fragment(), View.OnKeyListener {
+    override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+        var result = false
+        return if( keyCode == KeyEvent.KEYCODE_BACK ) {
+            val dialog = this.let { AlertDialog.Builder(v?.context) }
+            dialog.setTitle("Внимание!")
+            dialog.setMessage("Вы действительно хотите выйти?")
+            dialog.setPositiveButton("Да") { dialog1, _ ->
+                dialog1.dismiss()
+                result = true
+            }
+            dialog.setNegativeButton("Нет") { dialog1, _ ->
+                dialog1.dismiss() }
+            dialog.show()
+            result
+        } else {
+            false
+        }
+    }
 
     private lateinit var btFinances: Button
 

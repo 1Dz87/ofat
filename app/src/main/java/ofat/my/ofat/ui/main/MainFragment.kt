@@ -79,6 +79,10 @@ class MainFragment : androidx.fragment.app.Fragment() {
                 Toast.makeText(context, "Не заполнены обязательные поля.", Toast.LENGTH_SHORT).show()
             }
         }
+        btExit.setOnClickListener {
+            this.activity?.finish()
+            System.exit(0)
+        }
     }
 
     fun hideKeyboardFrom(context: Context, view: View) {
@@ -99,7 +103,9 @@ class MainFragment : androidx.fragment.app.Fragment() {
             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
                 UtilUI.showProgress(progress)
                 if((response.body() as AuthResponse).success != null) {
-                    viewModel.user.postValue((response.body() as AuthResponse).success!!)
+                    val user = (response.body() as AuthResponse).success!!
+                    OfatApplication.currentUser = user
+                    viewModel.user.postValue(user)
                     (activity as MainActivity).changeMenuNavigatorOnLogin()
                     view?.findNavController()?.navigate(R.id.menuFragment)
                 } else {

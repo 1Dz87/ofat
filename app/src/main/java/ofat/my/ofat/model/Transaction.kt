@@ -13,10 +13,11 @@ data class Transaction(
     var quantity: Double?,
     var type: TransactionType?,
     var comment: String?,
+    var user: User?,
     var partner: Partner?
 ) : Parcelable {
 
-    constructor() : this (null, null, null, null, null, null, null, "", null)
+    constructor() : this (null, null, null, null, null, null, null, "", null, null)
 
     constructor(parcel: Parcel) : this(
         parcel.readValue(Long::class.java.classLoader) as? Long,
@@ -27,6 +28,7 @@ data class Transaction(
         parcel.readValue(Double::class.java.classLoader) as? Double,
         parcel.readParcelable(TransactionType::class.java.classLoader) as TransactionType,
         parcel.readString(),
+        parcel.readParcelable<User>(User::class.java.classLoader) as User,
         parcel.readParcelable(Partner::class.java.classLoader) as Partner
     )
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -38,6 +40,7 @@ data class Transaction(
         parcel.writeDouble(quantity!!)
         parcel.writeValue(type)
         parcel.writeValue(partner)
+        parcel.writeLong(user?.id!!)
         parcel.writeString(comment)
     }
 
