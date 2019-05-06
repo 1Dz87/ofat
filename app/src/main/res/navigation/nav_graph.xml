@@ -12,12 +12,17 @@
               android:label="MenuFragment">
         <action android:id="@+id/action_menuFragment_to_usersFragment" app:destination="@id/usersFragment"/>
         <action android:id="@+id/action_menuFragment_to_scannerActivity" app:destination="@id/scannerActivity"/>
-        <action android:id="@+id/action_menuFragment_to_financesFragment" app:destination="@id/financesFragment"/>
         <action android:id="@+id/action_menuFragment_to_goodsFragment" app:destination="@id/goodsFragment"/>
+        <action android:id="@+id/action_menuFragment_to_bookkeepingListFragment" app:destination="@id/bookkeepingListFragment"/>
     </fragment>
 
-    <fragment android:id="@+id/financesFragment" android:name="ofat.my.ofat.ui.main.fin.FinancesFragment"
-              android:label="FinancesFragment"/>
+    <fragment android:id="@+id/bookkeepingListFragment" android:name="ofat.my.ofat.ui.main.bookkeeping.BookkeepingListFragment"
+              android:label="BookkeepingListFragment">
+        <action android:id="@+id/action_bookkeepingListFragment_to_bookkeeperCreateFragment" app:destination="@id/bookkeeperCreateFragment"/>
+    </fragment>
+
+    <fragment android:id="@+id/bookkeeperCreateFragment" android:name="ofat.my.ofat.ui.main.bookkeeping.BookkeeperCreateFragment"
+              android:label="BookkeeperCreateFragment"/>
 
     <fragment android:id="@+id/goodsFragment" android:name="ofat.my.ofat.ui.main.goods.GoodsFragment"
               android:label="GoodsFragment">

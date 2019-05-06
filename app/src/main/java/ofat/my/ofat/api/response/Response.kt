@@ -1,9 +1,6 @@
 package ofat.my.ofat.api.response
 
-import ofat.my.ofat.model.Good
-import ofat.my.ofat.model.ShortView
-import ofat.my.ofat.model.Transaction
-import ofat.my.ofat.model.User
+import ofat.my.ofat.model.*
 
 
 open class Response
@@ -40,5 +37,20 @@ class DeleteGoodResponse: Response() {
 
 class TransactionResponse: Response() {
     var success: Map<String, Transaction>? = null
+    var errors: String? = null
+}
+
+class GetBookkeepersResponse: Response() {
+    var success: List<Bookkeeper>? = null
+    var errors: String? = null
+}
+
+class CreateBookkeepersResponse: Response() {
+    var success: Long? = null
+    var errors: String? = null
+}
+
+class GetPointsResponse: Response() {
+    var success: List<Point>? = null
     var errors: String? = null
 }

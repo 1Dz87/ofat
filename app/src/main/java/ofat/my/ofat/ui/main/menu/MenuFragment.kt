@@ -99,7 +99,7 @@ class MenuFragment : androidx.fragment.app.Fragment(), View.OnKeyListener {
 
     private fun initButtons(view: View) {
         btFinances = view.findViewById(R.id.btFinances)
-        btFinances.setOnClickListener { view.findNavController().navigate(R.id.financesFragment) }
+        btFinances.setOnClickListener { view.findNavController().navigate(R.id.bookkeepingListFragment) }
 
         btGoods = view.findViewById(R.id.btGoods)
         btGoods.setOnClickListener { view.findNavController().navigate(R.id.goodsFragment) }

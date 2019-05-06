@@ -5,10 +5,6 @@ import android.content.Context
 import android.widget.Toast
 import androidx.room.Room
 import com.google.gson.GsonBuilder
-import ofat.my.ofat.api.AuthApi
-import ofat.my.ofat.api.GoodsApi
-import ofat.my.ofat.api.TxApi
-import ofat.my.ofat.api.UserApi
 import ofat.my.ofat.logging.FileLoggingTree
 import okhttp3.Credentials
 import okhttp3.HttpUrl
@@ -19,6 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.util.*
 import android.os.Build
+import ofat.my.ofat.api.*
 import ofat.my.ofat.model.User
 
 class OfatApplication : Application() {
@@ -30,6 +27,8 @@ class OfatApplication : Application() {
         var userApi: UserApi? = null
         var goodApi: GoodsApi? = null
         var txApi: TxApi? = null
+        var pointsApi: PointsApi? = null
+        var bookkeeperApi: BookkeeperApi? = null
         var LOCALE: Locale? = Locale.UK
         val modules: Properties = Properties()
         val MODULES = "modules"
@@ -80,6 +79,8 @@ class OfatApplication : Application() {
         userApi = retrofit?.create<UserApi>(UserApi::class.java)
         goodApi = retrofit?.create<GoodsApi>(GoodsApi::class.java)
         txApi = retrofit?.create<TxApi>(TxApi::class.java)
+        pointsApi = retrofit?.create<PointsApi>(PointsApi::class.java)
+        bookkeeperApi = retrofit?.create<BookkeeperApi>(BookkeeperApi::class.java)
     }
 
     private fun getCurrentLocale(context: Context): Locale {
