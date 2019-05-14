@@ -29,6 +29,7 @@ class OfatApplication : Application() {
         var txApi: TxApi? = null
         var pointsApi: PointsApi? = null
         var bookkeeperApi: BookkeeperApi? = null
+        var goodsGroupApi: GoodsGroupApi? = null
         var LOCALE: Locale? = Locale.UK
         val modules: Properties = Properties()
         val MODULES = "modules"
@@ -60,16 +61,12 @@ class OfatApplication : Application() {
 
     private fun apiCreation() {
         val retrofitBuilder = Retrofit.Builder()
-        retrofitBuilder.client(httpClient)
+        retrofitBuilder.client(httpClient!!)
         retrofitBuilder.addConverterFactory(gsonConverterFactory())
         val serverUrl = "95.46.204.135:27017"
         //val serverUrl = "192.168.0.103:8080"
         val httpUrl = HttpUrl.parse("http://$serverUrl/ofat/")
-        if (httpUrl == null) {
-            Toast.makeText(this, "Настройки невалидны", Toast.LENGTH_LONG).show()
-            return
-        }
-        retrofitBuilder.baseUrl(httpUrl)
+        retrofitBuilder.baseUrl(httpUrl!!)
         val retrofit = retrofitBuilder.build()
         makeApis(retrofit)
     }
@@ -81,6 +78,7 @@ class OfatApplication : Application() {
         txApi = retrofit?.create<TxApi>(TxApi::class.java)
         pointsApi = retrofit?.create<PointsApi>(PointsApi::class.java)
         bookkeeperApi = retrofit?.create<BookkeeperApi>(BookkeeperApi::class.java)
+        goodsGroupApi = retrofit?.create<GoodsGroupApi>(GoodsGroupApi::class.java)
     }
 
     private fun getCurrentLocale(context: Context): Locale {

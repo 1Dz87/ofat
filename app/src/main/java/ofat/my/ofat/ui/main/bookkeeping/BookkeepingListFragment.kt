@@ -30,7 +30,7 @@ class BookkeepingListFragment : Fragment() {
         table = view.findViewById(R.id.bookkeepersTable)
         addBt = view.findViewById(R.id.addBookkeeper)
         addBt.setOnClickListener {
-            it.findNavController().navigate(R.id.bookkeeperCreateFragment)
+            view.findNavController().navigate(R.id.bookkeeperCreateFragment)
         }
     }
 }

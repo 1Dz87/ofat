@@ -10,6 +10,8 @@ object OfatConstants {
 
     val ON_FAILURE_ERROR = "Ошибка! Проверьте соединение с интернетом"
 
+    val NO_REQUISITES_ERROR = "Заполните хотя бы один реквизит для поиска."
+
     val SUCCESS = "success"
 
     val YES = "Да"

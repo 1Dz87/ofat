@@ -12,7 +12,7 @@
               android:label="MenuFragment">
         <action android:id="@+id/action_menuFragment_to_usersFragment" app:destination="@id/usersFragment"/>
         <action android:id="@+id/action_menuFragment_to_scannerActivity" app:destination="@id/scannerActivity"/>
-        <action android:id="@+id/action_menuFragment_to_goodsFragment" app:destination="@id/goodsFragment"/>
+        <action android:id="@+id/action_menuFragment_to_selectionBeforeGoodFragment" app:destination="@id/selectionBeforeGoodFragment"/>
         <action android:id="@+id/action_menuFragment_to_bookkeepingListFragment" app:destination="@id/bookkeepingListFragment"/>
     </fragment>
 
@@ -20,6 +20,21 @@
               android:label="BookkeepingListFragment">
         <action android:id="@+id/action_bookkeepingListFragment_to_bookkeeperCreateFragment" app:destination="@id/bookkeeperCreateFragment"/>
     </fragment>
+
+    <fragment android:id="@+id/selectionBeforeGoodFragment" android:name="ofat.my.ofat.ui.main.goods.SelectionBeforeGoodFragment"
+              android:label="SelectionBeforeGoodFragment">
+        <action android:id="@+id/action_to_goodsFragment" app:destination="@id/goodsFragment"/>
+        <action android:id="@+id/action_to_groupSetupFragment" app:destination="@id/groupSetupFragment"/>
+    </fragment>
+
+    <fragment android:id="@+id/groupSetupFragment" android:name="ofat.my.ofat.ui.main.goods.GoodsGroupSetupFragment"
+              android:label="GoodsGroupSetupFragment"/>
+
+    <fragment android:id="@+id/addGroupFragment" android:name="ofat.my.ofat.ui.main.goods.AddGroupFragment"
+              android:label="AddGroupFragment"/>
+
+    <fragment android:id="@+id/editGroupFragment" android:name="ofat.my.ofat.ui.main.goods.EditGoodGroupFragment"
+              android:label="EditGoodGroupFragment"/>
 
     <fragment android:id="@+id/bookkeeperCreateFragment" android:name="ofat.my.ofat.ui.main.bookkeeping.BookkeeperCreateFragment"
               android:label="BookkeeperCreateFragment"/>

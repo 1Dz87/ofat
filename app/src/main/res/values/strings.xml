@@ -70,5 +70,8 @@
     <string name="total">Итого</string>
     <string name="good_table_name">Наименование</string>
     <string name="data_enter">Ввод данных</string>
+    <string name="good_groups">Работа с группами товаров</string>
+    <string name="addGroup">Создать группу товаров</string>
+    <string name="editGroup">Редактировать группу товаров</string>
 
 </resources>

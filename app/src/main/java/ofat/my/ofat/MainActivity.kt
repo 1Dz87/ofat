@@ -101,7 +101,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.nav_finances -> {
                 navController.popBackStack(R.id.menuFragment, false)
-                navController.navigate(R.id.financesFragment)
+                navController.navigate(R.id.bookkeepingListFragment)
                 drawer.closeDrawer(GravityCompat.START)
             }
             R.id.nav_scanner -> {
@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.nav_goods -> {
                 navController.popBackStack(R.id.menuFragment, false)
-                navController.navigate(R.id.goodsFragment)
+                navController.navigate(R.id.selectionBeforeGoodFragment)
                 drawer.closeDrawer(GravityCompat.START)
             }
             R.id.nav_points -> {
@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_finances -> {
                     navController.popBackStack(R.id.menuFragment, false)
-                    navController.navigate(R.id.financesFragment)
+                    navController.navigate(R.id.bookkeepingListFragment)
                     return true
                 }
                 R.id.nav_scanner -> {
@@ -178,7 +178,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_goods -> {
                     navController.popBackStack(R.id.menuFragment, false)
-                    navController.navigate(R.id.goodsFragment)
+                    navController.navigate(R.id.selectionBeforeGoodFragment)
                     return true
                 }
                 R.id.nav_points -> {

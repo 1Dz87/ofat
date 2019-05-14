@@ -37,6 +37,7 @@ import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat.getSystemService
+import ofat.my.ofat.Util.CollectionUtils
 import ofat.my.ofat.persistence.OfatDatabase
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -178,29 +179,34 @@ class GoodsFragment : Fragment() {
         reqMap["sellPackaging"] = ExtractUtil.v(sellPackagingET!!) as Any?
         reqMap["sellQuantity"] = ExtractUtil.v(sellQuantityET!!)?.toIntOrNull() as Any?
         reqMap["stored"] = ExtractUtil.v(storedET!!)?.toIntOrNull() as Any?
-        val call = OfatApplication.goodApi?.getGoods(reqMap)
-        call?.enqueue(object : Callback<GetGoodShortViewResponse>{
-            override fun onFailure(call: Call<GetGoodShortViewResponse>, t: Throwable) {
-                Toast.makeText(context, OfatConstants.ON_FAILURE_ERROR, Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onResponse(
-                call: Call<GetGoodShortViewResponse>,
-                response: Response<GetGoodShortViewResponse>
-            ) {
-                if (response.body() != null && response.body()?.success != null) {
-                    foundListViewModel.foundList.value = response.body()?.success as MutableCollection<ShortView>
-                    val bundle = Bundle()
-                    bundle.putBoolean("fromFast", fromFast)
-                    view?.findNavController()?.navigate(R.id.foundListFragment, bundle)
-                } else if (response.body() != null && response.body()?.errors != null) {
-                    Toast.makeText(context, response.body()?.errors, Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, OfatConstants.UNKNOWN_ERROR, Toast.LENGTH_SHORT).show()
+        val filteredMap = reqMap.filter { it.value != null }
+        if (CollectionUtils.mapIsNotEmpty(filteredMap as MutableMap<*, *>)) {
+            val call = OfatApplication.goodApi?.getGoods(reqMap)
+            call?.enqueue(object : Callback<GetGoodShortViewResponse> {
+                override fun onFailure(call: Call<GetGoodShortViewResponse>, t: Throwable) {
+                    Toast.makeText(context, OfatConstants.ON_FAILURE_ERROR, Toast.LENGTH_SHORT).show()
                 }
-            }
 
-        })
+                override fun onResponse(
+                    call: Call<GetGoodShortViewResponse>,
+                    response: Response<GetGoodShortViewResponse>
+                ) {
+                    if (response.body() != null && response.body()?.success != null) {
+                        foundListViewModel.foundList.value = response.body()?.success as MutableCollection<ShortView>
+                        val bundle = Bundle()
+                        bundle.putBoolean("fromFast", fromFast)
+                        view?.findNavController()?.navigate(R.id.foundListFragment, bundle)
+                    } else if (response.body() != null && response.body()?.errors != null) {
+                        Toast.makeText(context, response.body()?.errors, Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, OfatConstants.UNKNOWN_ERROR, Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            })
+        } else {
+            Toast.makeText(context, OfatConstants.NO_REQUISITES_ERROR, Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun processRequestAdd() {

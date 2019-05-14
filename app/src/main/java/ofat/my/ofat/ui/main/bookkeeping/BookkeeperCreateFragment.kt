@@ -43,16 +43,19 @@ class BookkeeperCreateFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_bookkeeper_create, container, false)
-        initView(view)
-        return view
+        return inflater.inflate(R.layout.fragment_bookkeeper_create, container, false)
     }
 
-    private fun initView(view: View) {
-        bookkeeperName = view.findViewById(R.id.book_name_edit_text)
-        createBt = view.findViewById(R.id.createBookkeeper)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        initView()
+        super.onActivityCreated(savedInstanceState)
+    }
+
+    private fun initView() {
+        bookkeeperName = view?.findViewById(R.id.book_name_edit_text)!!
+        createBt = view?.findViewById(R.id.createBookkeeper)!!
         createBt.setOnClickListener { onCreateClick() }
-        initPointTree(view)
+        initPointTree()
     }
 
     private fun onCreateClick() {
@@ -101,7 +104,7 @@ class BookkeeperCreateFragment : Fragment() {
         return result
     }
 
-    private fun initPointTree(view: View) {
+    private fun initPointTree() {
         val treeRoot = TreeNode.root()
         val parent = TreeNode("Точки")
         val pointList = getPoints()
@@ -112,12 +115,12 @@ class BookkeeperCreateFragment : Fragment() {
         }
         treeRoot.addChild(parent)
         treeView = AndroidTreeView(activity!!, treeRoot)
-        view.container.addView(treeView.view)
+        view?.container?.addView(treeView.view)
     }
 
     private fun getPoints(): List<Point> {
         val call = OfatApplication.pointsApi?.getPoints()
-        var result: List<Point>? = null
+        var result = listOf<Point>()
         call?.enqueue(object : Callback<GetPointsResponse> {
             override fun onFailure(call: Call<GetPointsResponse>, t: Throwable) {
                 Toast.makeText(context, OfatConstants.ON_FAILURE_ERROR, Toast.LENGTH_SHORT).show()
@@ -137,6 +140,6 @@ class BookkeeperCreateFragment : Fragment() {
             }
 
         })
-        return result!!
+        return result
     }
 }

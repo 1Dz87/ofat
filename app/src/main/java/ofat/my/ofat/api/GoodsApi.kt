@@ -1,9 +1,6 @@
 package ofat.my.ofat.api
 
-import ofat.my.ofat.api.response.AddGoodResponse
-import ofat.my.ofat.api.response.DeleteGoodResponse
-import ofat.my.ofat.api.response.GetGoodResponse
-import ofat.my.ofat.api.response.GetGoodShortViewResponse
+import ofat.my.ofat.api.response.*
 import ofat.my.ofat.model.Good
 import retrofit2.Call
 import retrofit2.http.Body

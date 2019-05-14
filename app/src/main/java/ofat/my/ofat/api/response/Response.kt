@@ -35,6 +35,11 @@ class DeleteGoodResponse: Response() {
     var errors: String? = null
 }
 
+class GoodsGroupResponse: Response() {
+    var success: GoodsGroup? = null
+    var errors: String? = null
+}
+
 class TransactionResponse: Response() {
     var success: Map<String, Transaction>? = null
     var errors: String? = null

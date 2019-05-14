@@ -4,10 +4,15 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity
+@Entity(foreignKeys = [ForeignKey(
+    entity = GoodsGroup::class,
+            parentColumns = ["id"],
+    childColumns = ["group"])]
+)
 data class Good(
     @PrimaryKey var id: Long?,
     @ColumnInfo(name = "f_name") var name: String?,
@@ -24,9 +29,10 @@ data class Good(
     @ColumnInfo(name = "f_status") var status: GoodStatus?,
     @ColumnInfo(name = "f_goodComments") var goodComments: String?,
     @ColumnInfo(name = "f_points") var points: MutableList<Long>?,
-    @ColumnInfo(name = "f_providers") var providers: MutableList<Long>?): Parcelable {
+    @ColumnInfo(name = "f_providers") var providers: MutableList<Long>?,
+    @ColumnInfo(name = "group")var group: Long? ): Parcelable {
 
-    constructor() : this (null, "", "", "", 0.0, 0.0, 0.0, 0, "", 0.0, 0.0, null, null, "", Collections.emptyList(), Collections.emptyList())
+    constructor() : this (null, "", "", "", 0.0, 0.0, 0.0, 0, "", 0.0, 0.0, null, null, "", Collections.emptyList(), Collections.emptyList(), null)
 
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
@@ -44,7 +50,8 @@ data class Good(
         parcel.readValue(GoodStatus::class.java.classLoader) as? GoodStatus,
         parcel.readString(),
         parcel.createLongArray()!!.toMutableList(),
-        parcel.createLongArray()!!.toMutableList()
+        parcel.createLongArray()!!.toMutableList(),
+        parcel.readLong()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -64,6 +71,7 @@ data class Good(
         parcel.writeString(goodComments)
         parcel.writeLongArray(points?.toLongArray())
         parcel.writeLongArray(providers?.toLongArray())
+        parcel.writeValue(group)
     }
 
     override fun describeContents(): Int {
