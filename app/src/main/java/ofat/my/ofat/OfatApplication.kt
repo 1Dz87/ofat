@@ -63,7 +63,7 @@ class OfatApplication : Application() {
         val retrofitBuilder = Retrofit.Builder()
         retrofitBuilder.client(httpClient!!)
         retrofitBuilder.addConverterFactory(gsonConverterFactory())
-        val serverUrl = "95.46.204.135:27017"
+        val serverUrl = "95.46.29.55:27017"
         //val serverUrl = "192.168.0.103:8080"
         val httpUrl = HttpUrl.parse("http://$serverUrl/ofat/")
         retrofitBuilder.baseUrl(httpUrl!!)

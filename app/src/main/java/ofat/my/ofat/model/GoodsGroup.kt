@@ -16,4 +16,8 @@ data class GoodsGroup(
     var goods: List<Long>
     ) : Parcelable {
     constructor() : this (null, "", listOf())
+
+    override fun toString(): String {
+        return this.name
+    }
 }

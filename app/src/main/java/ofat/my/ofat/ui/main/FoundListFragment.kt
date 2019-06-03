@@ -1,20 +1,20 @@
 package ofat.my.ofat.ui.main
 
 import android.content.res.ColorStateList
-import android.content.res.Resources
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.text.InputType
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import androidx.core.view.marginBottom
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ofat.my.ofat.MainActivity
 
 import ofat.my.ofat.R
@@ -25,11 +25,53 @@ class FoundListFragment : Fragment() {
 
     private lateinit var viewModel: FoundListViewModel
 
-   // private lateinit var viewModel: MainViewModel
-
     private lateinit var table: TableLayout
 
-    var fromFast = false
+    private var bookkeeper = false
+
+    companion object OnClickListeners {
+        var fromFast = false
+
+        fun onGoodClick(currElement: ShortView) : View.OnClickListener {
+            return View.OnClickListener {
+                val bundle = Bundle()
+                bundle.putString("goodId", currElement.id.toString())
+                bundle.putBoolean("fromFast", fromFast)
+                it.findNavController().navigate(R.id.foundGoodFragment, bundle)
+            }
+        }
+
+        fun onGoodGroupClick(currElement: ShortView) : View.OnClickListener {
+            return View.OnClickListener {
+                val bundle = Bundle()
+                bundle.putLong("groupId", currElement.id)
+                it.findNavController().navigate(R.id.editGroupFragment, bundle)
+            }
+        }
+
+        fun onBookkeeperClick(currElement: ShortView) : View.OnClickListener {
+            return View.OnClickListener {
+                val bundle = Bundle()
+                bundle.putLong("bookkeeperId", currElement.id)
+                it.findNavController().navigate(R.id.getBookkeeperFragment, bundle)
+            }
+        }
+
+        fun addCreateBookkeeperBt(view: View) {
+            val btLayout: LinearLayout = view.findViewById(R.id.additionalLayout)!!
+            val btCreate = FloatingActionButton(view.context)
+            val layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            layoutParams.setMargins(32, 32, 32, 32)
+            layoutParams.gravity = Gravity.END
+            btCreate.setImageResource(R.drawable.ic_control_point_black_24dp)
+            btCreate.layoutParams = layoutParams
+            btCreate.backgroundTintList = ColorStateList.valueOf(view.resources.getColor(R.color.colorPrimary))
+            btCreate.setOnClickListener {
+                view.findNavController().navigate(R.id.bookkeeperCreateFragment)
+            }
+            btLayout.addView(btCreate)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +79,7 @@ class FoundListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.found_list_fragment, container, false)
         fromFast = arguments?.getBoolean("fromFast") ?: false
+        bookkeeper = arguments?.getBoolean("bookkeeper") ?: false
         return view
     }
 
@@ -57,7 +100,7 @@ class FoundListFragment : Fragment() {
                     val row = TableRow(view.context)
                     val textView = TextView(view.context)
                     val currElement = it.elementAt(index)
-                    makeTextView(textView, currElement, index)
+                    currElement.makeTextView(textView, index, resources.getColor(R.color.white))
                     row.layoutParams =
                         TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT)
                     row.addView(textView)
@@ -65,26 +108,8 @@ class FoundListFragment : Fragment() {
                 }
             }
         })
-    }
-
-    private fun makeTextView(textView : TextView, currElement : ShortView, index: Int) {
-        textView.text = currElement.view
-        textView.textSize = 18F
-        textView.isElegantTextHeight = true
-        textView.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE
-        textView.setSingleLine(false)
-        textView.setTextColor(ColorStateList.valueOf(resources.getColor(R.color.white)))
-        textView.setBackgroundResource(R.color.colorPrimary)
-        textView.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("goodId", currElement.id.toString())
-            bundle.putBoolean("fromFast", fromFast)
-            view?.findNavController()?.navigate(R.id.foundGoodFragment, bundle)
+        if (bookkeeper) {
+            addCreateBookkeeperBt(view)
         }
-        textView.id = index
-        val lParams = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT)
-        lParams.setMargins(0, 0, 0, 3)
-        textView.layoutParams = lParams
-        textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_chevron_right_black_24dp, 0)
     }
 }

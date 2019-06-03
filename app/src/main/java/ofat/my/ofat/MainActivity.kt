@@ -1,12 +1,14 @@
 package ofat.my.ofat
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -19,8 +21,16 @@ import ofat.my.ofat.ui.main.MainViewModel
 import ofat.my.ofat.ui.main.goods.GoodViewModel
 import timber.log.Timber
 import androidx.core.view.GravityCompat
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import ofat.my.ofat.Util.UtilUI
+import ofat.my.ofat.api.response.GetBookkeepersSVResponse
+import ofat.my.ofat.model.ShortView
 import ofat.my.ofat.permission.requestCameraPermission
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -101,7 +111,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.nav_finances -> {
                 navController.popBackStack(R.id.menuFragment, false)
-                navController.navigate(R.id.bookkeepingListFragment)
+                onFinancesClick(navController)
                 drawer.closeDrawer(GravityCompat.START)
             }
             R.id.nav_scanner -> {
@@ -163,7 +173,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_finances -> {
                     navController.popBackStack(R.id.menuFragment, false)
-                    navController.navigate(R.id.bookkeepingListFragment)
+                    onFinancesClick(navController)
                     return true
                 }
                 R.id.nav_scanner -> {
@@ -235,5 +245,28 @@ class MainActivity : AppCompatActivity() {
             changeMenuNavigatorOnLogin()
         }
         super.onConfigurationChanged(newConfig)
+    }
+
+    private fun onFinancesClick(navController: NavController) {
+        val call = OfatApplication.bookkeeperApi?.getBookkeepersSV()
+        call?.enqueue(object : Callback<GetBookkeepersSVResponse> {
+            @SuppressLint("ThrowableNotAtBeginning", "TimberExceptionLogging")
+            override fun onFailure(call: Call<GetBookkeepersSVResponse>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "Ошибка сервера.", Toast.LENGTH_SHORT).show()
+                Timber.e(t, t.message, t.cause)
+            }
+
+            override fun onResponse(
+                call: Call<GetBookkeepersSVResponse>,
+                response: Response<GetBookkeepersSVResponse>
+            ) {
+                if (response.body()?.success != null) {
+                    foundModel.foundList.value = response.body()?.success as MutableCollection<ShortView>
+                    navController.navigate(R.id.foundListFragment)
+                } else {
+                    Toast.makeText(this@MainActivity, "Группа не найдена.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 }
