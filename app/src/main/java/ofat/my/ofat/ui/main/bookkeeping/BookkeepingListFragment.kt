@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TableLayout
 import androidx.navigation.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -14,9 +15,9 @@ import ofat.my.ofat.R
 
 class BookkeepingListFragment : Fragment() {
 
-    private lateinit var table: TableLayout
+    private lateinit var btCreate: Button
 
-    private lateinit var addBt: FloatingActionButton
+    private lateinit var btApply: Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
@@ -27,10 +28,10 @@ class BookkeepingListFragment : Fragment() {
     }
 
     private fun initView(view : View) {
-        table = view.findViewById(R.id.bookkeepersTable)
-        addBt = view.findViewById(R.id.addBookkeeper)
-        addBt.setOnClickListener {
-            view.findNavController().navigate(R.id.bookkeeperCreateFragment)
-        }
+        btCreate = view.findViewById(R.id.btCreateTemplate)
+        btCreate.setOnClickListener { view.findNavController().navigate(R.id.bookkeeperCreateFragment) }
+
+        btApply = view.findViewById(R.id.btApplyTemplate)
+        btApply.setOnClickListener { view.findNavController().navigate(R.id.bookkeeperSelectFragment) }
     }
 }

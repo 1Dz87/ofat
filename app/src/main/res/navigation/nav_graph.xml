@@ -39,6 +39,9 @@
     <fragment android:id="@+id/bookkeeperCreateFragment" android:name="ofat.my.ofat.ui.main.bookkeeping.BookkeeperCreateFragment"
               android:label="BookkeeperCreateFragment"/>
 
+    <fragment android:id="@+id/bookkeeperSelectFragment" android:name="ofat.my.ofat.ui.main.bookkeeping.SelectBookkeeperFragment"
+              android:label="SelectBookkeeperFragment"/>
+
     <fragment android:id="@+id/goodsFragment" android:name="ofat.my.ofat.ui.main.goods.GoodsFragment"
               android:label="GoodsFragment">
         <argument android:name="barcode"/>

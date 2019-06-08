@@ -73,5 +73,7 @@
     <string name="good_groups">Работа с группами товаров</string>
     <string name="addGroup">Создать группу товаров</string>
     <string name="editGroup">Редактировать группу товаров</string>
+    <string name="create_template">Создать шаблон</string>
+    <string name="apply_template">Применить шаблон</string>
 
 </resources>
