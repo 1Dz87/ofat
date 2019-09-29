@@ -1,13 +1,10 @@
 package ofat.my.ofat.ui.main.goods
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -19,29 +16,20 @@ import ofat.my.ofat.MainActivity
 import ofat.my.ofat.OfatApplication
 
 import ofat.my.ofat.R
-import ofat.my.ofat.Util.ExtractUtil
-import ofat.my.ofat.Util.OfatConstants
-import ofat.my.ofat.Util.UtilUI
 import ofat.my.ofat.api.response.AddGoodResponse
-import ofat.my.ofat.api.response.GetGoodResponse
 import ofat.my.ofat.api.response.GetGoodShortViewResponse
-import ofat.my.ofat.model.Good
-import ofat.my.ofat.model.GoodStatus
-import ofat.my.ofat.model.ShortView
 import ofat.my.ofat.ui.main.FoundListViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
-import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
-import android.content.Context.INPUT_METHOD_SERVICE
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
-import ofat.my.ofat.Util.CollectionUtils
+import android.widget.ArrayAdapter
+import android.widget.ProgressBar
+import android.widget.Spinner
+import ofat.my.ofat.Util.*
+import ofat.my.ofat.api.response.GoodsGroupNamesResponse
+import ofat.my.ofat.model.*
 import ofat.my.ofat.persistence.OfatDatabase
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class GoodsFragment : Fragment() {
@@ -55,6 +43,8 @@ class GoodsFragment : Fragment() {
     private var goodIdET: TextInputEditText? = null
 
     private var goodNameET: TextInputEditText? = null
+
+    private var goodsGroupSpinner: Spinner? = null
 
     private var incomeDateET: TextInputEditText? = null
 
@@ -84,6 +74,10 @@ class GoodsFragment : Fragment() {
 
     private var fromFast = false
 
+    private var fromBk = false
+
+    private var progress: ProgressBar? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -92,6 +86,7 @@ class GoodsFragment : Fragment() {
         (activity as MainActivity).setCurrentTitle(R.string.goods)
         barcode = arguments?.getString("barcode")
         fromFast = arguments?.getBoolean("fromFast") ?: false
+        fromBk = arguments?.getBoolean("fromBk") ?: false
         goodViewModel = ViewModelProviders.of(this).get(GoodViewModel::class.java)
         goodViewModel.barcode.observe(this, Observer<String> {
             if (it != null) {
@@ -108,11 +103,39 @@ class GoodsFragment : Fragment() {
         foundListViewModel = ViewModelProviders.of(activity!!).get(FoundListViewModel::class.java)
     }
 
+    private fun initGoodsGroupsNamesList() {
+        val call = OfatApplication.goodsGroupApi?.getGoodsGroupsNames()
+        UtilUI.showProgress(progress!!)
+        call?.enqueue(object : Callback<GoodsGroupNamesResponse>{
+            override fun onFailure(call: Call<GoodsGroupNamesResponse>, t: Throwable) {
+                UtilUI.showProgress(progress!!)
+                Toast.makeText(context, OfatConstants.ON_FAILURE_ERROR, Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onResponse(call: Call<GoodsGroupNamesResponse>, response: Response<GoodsGroupNamesResponse>) {
+                UtilUI.showProgress(progress!!)
+                if (response.body() != null && response.body()?.success != null) {
+                    val groups = response.body()?.success as List<GoodsGroup>
+                    goodsGroupSpinner?.adapter =
+                        ArrayAdapter<GoodsGroup>(activity!!, R.layout.spinner_item, R.id.spinner_item_tv, groups)
+                } else if (response.body() != null && response.body()?.errors != null) {
+                    Toast.makeText(context, response.body()?.errors, Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, OfatConstants.UNKNOWN_ERROR, Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+    }
+
     private fun initViews(view: View) {
+        progress = view.findViewById(R.id.progressBarGF)
 
         goodIdET = view.findViewById(R.id.good_id_edit_text)
         goodNameET = view.findViewById(R.id.good_name_edit_text)
         UtilUI.clearTextField(goodNameET, context!!)
+
+        goodsGroupSpinner = view.findViewById(R.id.goods_group_spinner)
+        initGoodsGroupsNamesList()
 
         incomeDateET = view.findViewById(R.id.good_incomeDate_edit_text)
         UtilUI.setDateToField(incomeDateET!!, activity!!)
@@ -149,7 +172,7 @@ class GoodsFragment : Fragment() {
         addGoodBT?.setOnClickListener {
             processRequestAdd()
         }
-        if (fromFast) {
+        if (fromFast || fromBk) {
             addGoodBT?.hide()
         }
 
@@ -179,11 +202,14 @@ class GoodsFragment : Fragment() {
         reqMap["sellPackaging"] = ExtractUtil.v(sellPackagingET!!) as Any?
         reqMap["sellQuantity"] = ExtractUtil.v(sellQuantityET!!)?.toIntOrNull() as Any?
         reqMap["stored"] = ExtractUtil.v(storedET!!)?.toIntOrNull() as Any?
+        reqMap["group"] = if ((goodsGroupSpinner?.selectedItem) != null) (goodsGroupSpinner?.selectedItem as GoodsGroup).id else null
         val filteredMap = reqMap.filter { it.value != null }
         if (CollectionUtils.mapIsNotEmpty(filteredMap as MutableMap<*, *>)) {
             val call = OfatApplication.goodApi?.getGoods(reqMap)
+            UtilUI.showProgress(progress!!)
             call?.enqueue(object : Callback<GetGoodShortViewResponse> {
                 override fun onFailure(call: Call<GetGoodShortViewResponse>, t: Throwable) {
+                    UtilUI.showProgress(progress!!)
                     Toast.makeText(context, OfatConstants.ON_FAILURE_ERROR, Toast.LENGTH_SHORT).show()
                 }
 
@@ -191,10 +217,12 @@ class GoodsFragment : Fragment() {
                     call: Call<GetGoodShortViewResponse>,
                     response: Response<GetGoodShortViewResponse>
                 ) {
+                    UtilUI.showProgress(progress!!)
                     if (response.body() != null && response.body()?.success != null) {
                         foundListViewModel.foundList.value = response.body()?.success as MutableCollection<ShortView>
                         val bundle = Bundle()
                         bundle.putBoolean("fromFast", fromFast)
+                        bundle.putBoolean("fromBk", fromBk)
                         view?.findNavController()?.navigate(R.id.foundListFragment, bundle)
                     } else if (response.body() != null && response.body()?.errors != null) {
                         Toast.makeText(context, response.body()?.errors, Toast.LENGTH_SHORT).show()
@@ -213,11 +241,14 @@ class GoodsFragment : Fragment() {
         if (UtilUI.checkTextInputFields(arrayOf(goodNameET!!))) {
             val good = makeGood()
             val call = OfatApplication.goodApi?.createGood(good)
+            UtilUI.showProgress(progress!!)
             call?.enqueue(object : Callback<AddGoodResponse>{
                 override fun onFailure(call: Call<AddGoodResponse>, t: Throwable) {
+                    UtilUI.showProgress(progress!!)
                     Toast.makeText(context, OfatConstants.ON_FAILURE_ERROR, Toast.LENGTH_LONG).show()
                 }
                 override fun onResponse(call: Call<AddGoodResponse>, response: Response<AddGoodResponse>) {
+                    UtilUI.showProgress(progress!!)
                     when {
                         response.body()?.success != null -> {
                             response.body()?.success?.forEach { (key, value) ->
@@ -250,6 +281,8 @@ class GoodsFragment : Fragment() {
         good.sellQuantity = ExtractUtil.v(sellQuantityET!!)?.toDoubleOrNull()
         good.stored = ExtractUtil.v(storedET!!)?.toIntOrNull()
         good.status = GoodStatus.ACTIVE
+        good.group = if (goodsGroupSpinner?.selectedItem != null) goodsGroupSpinner?.selectedItem as GoodsGroup else null
         return good
     }
+
 }

@@ -40,22 +40,32 @@ class GoodsGroupResponse: Response() {
     var errors: String? = null
 }
 
+class GoodsGroupNamesResponse: Response() {
+    var success: List<GoodsGroup>? = null
+    var errors: String? = null
+}
+
+class GoodsGroupSVResponse: Response() {
+    var success: List<ShortView>? = null
+    var errors: String? = null
+}
+
 class TransactionResponse: Response() {
     var success: Map<String, Transaction>? = null
     var errors: String? = null
 }
 
-class GetBookkeepersResponse: Response() {
-    var success: List<Bookkeeper>? = null
-    var errors: String? = null
-}
-
-class CreateBookkeepersResponse: Response() {
-    var success: Long? = null
-    var errors: String? = null
-}
-
 class GetPointsResponse: Response() {
     var success: List<Point>? = null
+    var errors: String? = null
+}
+
+class GetUsersListResponse: Response() {
+    var success: MutableList<ShortView>? = null
+    var errors: String? = null
+}
+
+class QueryBookResponseObj: Response() {
+    var success: QueryBookResponse? = null
     var errors: String? = null
 }

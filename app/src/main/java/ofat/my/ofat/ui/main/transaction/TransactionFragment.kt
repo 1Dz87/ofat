@@ -116,13 +116,16 @@ class TransactionFragment : Fragment() {
             if (UtilUI.checkTextFields(arrayOf(good_ET!!, price_ET!!, date_ET!!, time_ET!!, quantity_ET!!))) {
                 val request = fillTxRequest()
                 val call = OfatApplication.txApi?.doTransact(request)
+                btTx?.isClickable = false
                 UtilUI.showProgress(progress!!)
                 call?.enqueue(object : Callback<TransactionResponse> {
                     override fun onFailure(call: Call<TransactionResponse>, t: Throwable) {
+                        btTx?.isClickable = false
                         Toast.makeText(context, OfatConstants.ON_FAILURE_ERROR, Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onResponse(call: Call<TransactionResponse>, response: Response<TransactionResponse>) {
+                        btTx?.isClickable = false
                         if (response.body() != null && response.body()?.success != null) {
                             val dialog = this.let { AlertDialog.Builder(activity) }
                             dialog.setTitle("Внимание!")
@@ -134,7 +137,11 @@ class TransactionFragment : Fragment() {
                             }
                             dialog.show()
                         } else {
-                            Toast.makeText(context, OfatConstants.UNKNOWN_ERROR, Toast.LENGTH_SHORT).show()
+                            if (response.body() != null && response.body()?.errors != null) {
+                                Toast.makeText(context, response.body()?.errors, Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(context, OfatConstants.UNKNOWN_ERROR, Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
                 })

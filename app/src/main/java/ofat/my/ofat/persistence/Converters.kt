@@ -2,6 +2,7 @@ package ofat.my.ofat.persistence
 
 import androidx.room.TypeConverter
 import ofat.my.ofat.model.GoodStatus
+import ofat.my.ofat.model.GoodsGroup
 import java.util.*
 
 
@@ -40,6 +41,15 @@ class Converters {
         return data.split(",".toRegex()).dropLastWhile { it.isEmpty() }.map { it.toLong() }
     }
 
+    @TypeConverter
+    fun toGroup(value: Long?): GoodsGroup {
+        return if (value == null) GoodsGroup() else GoodsGroup(value, "", listOf())
+    }
+
+    @TypeConverter
+    fun fromGroup(value: GoodsGroup): Long? {
+        return value.id
+    }
 /*    @TypeConverter
     fun toDate(dateString: String?): LocalDateTime? {
         return if (dateString == null) {

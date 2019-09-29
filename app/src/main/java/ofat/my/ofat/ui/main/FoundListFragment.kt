@@ -1,10 +1,7 @@
 package ofat.my.ofat.ui.main
 
-import android.content.res.ColorStateList
-import android.content.res.Resources
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import androidx.core.view.marginBottom
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import ofat.my.ofat.MainActivity
@@ -20,16 +16,48 @@ import ofat.my.ofat.MainActivity
 import ofat.my.ofat.R
 import ofat.my.ofat.Util.CollectionUtils
 import ofat.my.ofat.model.ShortView
+import ofat.my.ofat.ui.main.bookkeeping.BookkeepersViewModel
 
 class FoundListFragment : Fragment() {
 
     private lateinit var viewModel: FoundListViewModel
 
-   // private lateinit var viewModel: MainViewModel
-
     private lateinit var table: TableLayout
 
-    var fromFast = false
+    companion object OnClickListeners {
+        var fromFast = false
+        var fromBk = false
+        lateinit var bookkeepersViewModel: BookkeepersViewModel
+
+        fun onGoodClick(currElement: ShortView) : View.OnClickListener {
+            return View.OnClickListener {
+                val bundle = Bundle()
+                bundle.putString("goodId", currElement.id.toString())
+                bundle.putBoolean("fromFast", fromFast)
+                if (fromBk) {
+                    bookkeepersViewModel.queryGood.value = currElement
+                    it.findNavController().navigate(R.id.bookkeeperCreateFragment, bundle)
+                } else {
+                    it.findNavController().navigate(R.id.foundGoodFragment, bundle)
+                }
+            }
+        }
+
+        fun onGoodGroupClick(currElement: ShortView) : View.OnClickListener {
+            return View.OnClickListener {
+                val bundle = Bundle()
+                bundle.putLong("groupId", currElement.id)
+                it.findNavController().navigate(R.id.editGroupFragment, bundle)
+            }
+        }
+
+        fun onUserClick(currElement: ShortView) : View.OnClickListener {
+            return View.OnClickListener {
+                bookkeepersViewModel.queryUser.value = currElement
+                it.findNavController().navigateUp()
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +65,7 @@ class FoundListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.found_list_fragment, container, false)
         fromFast = arguments?.getBoolean("fromFast") ?: false
+        fromBk = arguments?.getBoolean("fromBk") ?: false
         return view
     }
 
@@ -45,6 +74,7 @@ class FoundListFragment : Fragment() {
         (activity as MainActivity).setCurrentTitle(R.string.search_result)
         activity?.let {
             viewModel = ViewModelProviders.of(activity!!).get(FoundListViewModel::class.java)
+            bookkeepersViewModel = ViewModelProviders.of(activity!!).get(BookkeepersViewModel::class.java)
             init(this.view!!)
         }
     }
@@ -57,7 +87,7 @@ class FoundListFragment : Fragment() {
                     val row = TableRow(view.context)
                     val textView = TextView(view.context)
                     val currElement = it.elementAt(index)
-                    makeTextView(textView, currElement, index)
+                    currElement.makeTextView(textView, index, resources.getColor(R.color.white))
                     row.layoutParams =
                         TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT)
                     row.addView(textView)
@@ -65,26 +95,5 @@ class FoundListFragment : Fragment() {
                 }
             }
         })
-    }
-
-    private fun makeTextView(textView : TextView, currElement : ShortView, index: Int) {
-        textView.text = currElement.view
-        textView.textSize = 18F
-        textView.isElegantTextHeight = true
-        textView.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE
-        textView.setSingleLine(false)
-        textView.setTextColor(ColorStateList.valueOf(resources.getColor(R.color.white)))
-        textView.setBackgroundResource(R.color.colorPrimary)
-        textView.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("goodId", currElement.id.toString())
-            bundle.putBoolean("fromFast", fromFast)
-            view?.findNavController()?.navigate(R.id.foundGoodFragment, bundle)
-        }
-        textView.id = index
-        val lParams = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT)
-        lParams.setMargins(0, 0, 0, 3)
-        textView.layoutParams = lParams
-        textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_chevron_right_black_24dp, 0)
     }
 }

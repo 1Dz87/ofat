@@ -8,7 +8,7 @@ import ofat.my.ofat.model.Good
 import androidx.room.Room
 import ofat.my.ofat.model.GoodsGroup
 
-@Database(entities = [Good::class, GoodsGroup::class], version = 3, exportSchema = false)
+@Database(entities = [Good::class, GoodsGroup::class], version = 6, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class OfatDatabase : RoomDatabase() {
 

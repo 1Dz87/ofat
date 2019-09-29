@@ -14,6 +14,7 @@
     <string name="providers">Поставщики</string>
     <string name="finances">Бухгалтерия</string>
     <string name="users">Добавить пользователя</string>
+    <string name="usersHeader">Добавление пользователя</string>
     <string name="firstName">Имя</string>
     <string name="lastName">Фамилия</string>
     <string name="middleName">Отчество</string>
@@ -75,5 +76,12 @@
     <string name="editGroup">Редактировать группу товаров</string>
     <string name="create_template">Создать шаблон</string>
     <string name="apply_template">Применить шаблон</string>
+    <string name="group_label">Группа:</string>
+    <string name="query_good">Выбрать товар</string>
+    <string name="query_date_from">Дата с</string>
+    <string name="query_date_to">Дата по</string>
+    <string name="query_user">Выбрать пользователя</string>
+    <string name="select_group">Выбрать группу</string>
+    <string name="create">Создать</string>
 
 </resources>

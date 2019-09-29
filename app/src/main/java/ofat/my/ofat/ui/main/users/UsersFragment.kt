@@ -45,6 +45,10 @@ class UsersFragment : Fragment() {
 
     private lateinit var repeatPassword: TextInputEditText
 
+    private lateinit var salary: TextInputEditText
+
+    private lateinit var percent: TextInputEditText
+
     private lateinit var btCreate: Button
 
     private lateinit var btCancel: Button
@@ -76,6 +80,8 @@ class UsersFragment : Fragment() {
         login = view.findViewById(R.id.login_user_edit_text)
         password = view.findViewById(R.id.password_edit_text)
         repeatPassword = view.findViewById(R.id.repeat_password_edit_text)
+        salary = view.findViewById(R.id.salary_ET)
+        percent = view.findViewById(R.id.percent_ET)
     }
 
     private fun initButtons(view: View) {
@@ -110,6 +116,8 @@ class UsersFragment : Fragment() {
         request.email = emailStr
         request.login = ExtractUtil.v(login)!!
         request.password = passwordStr
+        request.salary = ExtractUtil.v(salary)!!.toDouble()
+        request.percent = ExtractUtil.v(percent)!!.toDouble()
         val call = OfatApplication.userApi?.addClient(request)
         UtilUI.showProgress(progress)
         call?.enqueue(object : Callback<CreateUserResponse> {

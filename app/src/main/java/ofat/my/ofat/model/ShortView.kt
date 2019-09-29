@@ -1,34 +1,47 @@
 package ofat.my.ofat.model
 
-import android.os.Parcel
+import android.content.res.ColorStateList
 import android.os.Parcelable
+import android.text.InputType
+import android.widget.TableRow
+import android.widget.TextView
+import kotlinx.android.parcel.Parcelize
+import ofat.my.ofat.R
+import ofat.my.ofat.ui.main.FoundListFragment
 
-data class ShortView(    var view: String = "",
-                         var id: Long = 0L,
-                         var barcode: String?) : Parcelable {
-    constructor(parcel: Parcel) : this(
-        parcel.readString(),
-        parcel.readLong(),
-        parcel.readString()
-    )
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(view)
-        parcel.writeLong(id)
-        parcel.writeString(view)
+@Parcelize
+data class ShortView(
+    var view: String = "",
+    var id: Long = 0L,
+    var barcode: String?,
+    var className: String = ""
+) : Parcelable {
+    fun makeTextView(
+        textView: TextView,
+        index: Int,
+        textColor: Int
+    ) {
+        fillTextView(textView, index, textColor)
+        when (this.className) {
+            Good::class.java.simpleName -> textView.setOnClickListener(FoundListFragment.onGoodClick(this))
+            GoodsGroup::class.java.simpleName -> textView.setOnClickListener(FoundListFragment.onGoodGroupClick(this))
+            QueryBookRequest::class.java.simpleName -> textView.setOnClickListener(FoundListFragment.onUserClick(this))
+        }
     }
 
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<ShortView> {
-        override fun createFromParcel(parcel: Parcel): ShortView {
-            return ShortView(parcel)
-        }
-
-        override fun newArray(size: Int): Array<ShortView?> {
-            return arrayOfNulls(size)
-        }
+    private fun fillTextView(textView: TextView, index: Int,
+                             textColor: Int) {
+        textView.text = this.view
+        textView.textSize = 18F
+        textView.isElegantTextHeight = true
+        textView.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE
+        textView.setSingleLine(false)
+        textView.setTextColor(ColorStateList.valueOf(textColor))
+        textView.setBackgroundResource(R.color.colorPrimary)
+        textView.id = index
+        val lParams = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT)
+        lParams.setMargins(0, 0, 0, 3)
+        textView.layoutParams = lParams
+        textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_chevron_right_black_24dp, 0)
     }
 }

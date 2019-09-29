@@ -13,7 +13,7 @@ import ofat.my.ofat.MainActivity
 
 import ofat.my.ofat.R
 
-class BookkeepingListFragment : Fragment() {
+class BookkeepingFragment : Fragment() {
 
     private lateinit var btCreate: Button
 
@@ -32,6 +32,6 @@ class BookkeepingListFragment : Fragment() {
         btCreate.setOnClickListener { view.findNavController().navigate(R.id.bookkeeperCreateFragment) }
 
         btApply = view.findViewById(R.id.btApplyTemplate)
-        btApply.setOnClickListener { view.findNavController().navigate(R.id.bookkeeperSelectFragment) }
+        btApply.setOnClickListener { view.findNavController().navigate(R.id.getBookkeeperFragment) }
     }
 }

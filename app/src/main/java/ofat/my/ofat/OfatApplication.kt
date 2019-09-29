@@ -26,9 +26,9 @@ class OfatApplication : Application() {
         var authApi: AuthApi? = null
         var userApi: UserApi? = null
         var goodApi: GoodsApi? = null
+        var templatesApi: TemplatesApi? = null
         var txApi: TxApi? = null
         var pointsApi: PointsApi? = null
-        var bookkeeperApi: BookkeeperApi? = null
         var goodsGroupApi: GoodsGroupApi? = null
         var LOCALE: Locale? = Locale.UK
         val modules: Properties = Properties()
@@ -63,8 +63,7 @@ class OfatApplication : Application() {
         val retrofitBuilder = Retrofit.Builder()
         retrofitBuilder.client(httpClient!!)
         retrofitBuilder.addConverterFactory(gsonConverterFactory())
-        val serverUrl = "95.46.204.135:27017"
-        //val serverUrl = "192.168.0.103:8080"
+        val serverUrl = "192.168.0.103:8080"
         val httpUrl = HttpUrl.parse("http://$serverUrl/ofat/")
         retrofitBuilder.baseUrl(httpUrl!!)
         val retrofit = retrofitBuilder.build()
@@ -75,9 +74,9 @@ class OfatApplication : Application() {
         authApi = retrofit?.create<AuthApi>(AuthApi::class.java)
         userApi = retrofit?.create<UserApi>(UserApi::class.java)
         goodApi = retrofit?.create<GoodsApi>(GoodsApi::class.java)
+        templatesApi = retrofit?.create<TemplatesApi>(TemplatesApi::class.java)
         txApi = retrofit?.create<TxApi>(TxApi::class.java)
         pointsApi = retrofit?.create<PointsApi>(PointsApi::class.java)
-        bookkeeperApi = retrofit?.create<BookkeeperApi>(BookkeeperApi::class.java)
         goodsGroupApi = retrofit?.create<GoodsGroupApi>(GoodsGroupApi::class.java)
     }
 

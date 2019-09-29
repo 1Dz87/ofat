@@ -1,6 +1,7 @@
 package ofat.my.ofat.ui.main.menu
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -9,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
@@ -17,12 +20,18 @@ import ofat.my.ofat.MainActivity
 import ofat.my.ofat.R
 import ofat.my.ofat.OfatApplication
 import ofat.my.ofat.Util.Module
+import ofat.my.ofat.Util.UtilUI
+import ofat.my.ofat.api.response.GoodsGroupSVResponse
 import ofat.my.ofat.model.Good
 import ofat.my.ofat.model.ShortView
 import ofat.my.ofat.permission.requestCameraPermission
 import ofat.my.ofat.ui.main.FoundListViewModel
 import ofat.my.ofat.ui.main.MainViewModel
 import ofat.my.ofat.ui.main.goods.GoodViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber
 
 
 class MenuFragment : androidx.fragment.app.Fragment(), View.OnKeyListener {
@@ -61,6 +70,8 @@ class MenuFragment : androidx.fragment.app.Fragment(), View.OnKeyListener {
 
     private lateinit var btSell: Button
 
+    private lateinit var progress: ProgressBar
+
     var mainModel: MainViewModel? = null
 
     var foundModel: FoundListViewModel? = null
@@ -98,6 +109,8 @@ class MenuFragment : androidx.fragment.app.Fragment(), View.OnKeyListener {
     }
 
     private fun initButtons(view: View) {
+        progress = view.findViewById(R.id.progressBarMenu)
+
         btFinances = view.findViewById(R.id.btFinances)
         btFinances.setOnClickListener { view.findNavController().navigate(R.id.bookkeepingListFragment) }
 
@@ -144,5 +157,4 @@ class MenuFragment : androidx.fragment.app.Fragment(), View.OnKeyListener {
             }
         }
     }
-
 }

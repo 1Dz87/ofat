@@ -1,13 +1,8 @@
 package ofat.my.ofat.ui.main
 
-import android.annotation.SuppressLint
-import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.findNavController
 import ofat.my.ofat.OfatApplication
-import ofat.my.ofat.R
 import ofat.my.ofat.Util.CollectionUtils
 import ofat.my.ofat.api.response.GetGoodShortViewResponse
 import ofat.my.ofat.exception.ConnectionException

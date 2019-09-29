@@ -5,13 +5,14 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity(foreignKeys = [ForeignKey(
     entity = GoodsGroup::class,
             parentColumns = ["id"],
-    childColumns = ["group"])]
+    childColumns = ["f_group"], onUpdate = CASCADE)]
 )
 data class Good(
     @PrimaryKey var id: Long?,
@@ -30,7 +31,7 @@ data class Good(
     @ColumnInfo(name = "f_goodComments") var goodComments: String?,
     @ColumnInfo(name = "f_points") var points: MutableList<Long>?,
     @ColumnInfo(name = "f_providers") var providers: MutableList<Long>?,
-    @ColumnInfo(name = "group")var group: Long? ): Parcelable {
+    @ColumnInfo(name = "f_group")var group: GoodsGroup? ): Parcelable {
 
     constructor() : this (null, "", "", "", 0.0, 0.0, 0.0, 0, "", 0.0, 0.0, null, null, "", Collections.emptyList(), Collections.emptyList(), null)
 
@@ -51,7 +52,7 @@ data class Good(
         parcel.readString(),
         parcel.createLongArray()!!.toMutableList(),
         parcel.createLongArray()!!.toMutableList(),
-        parcel.readLong()
+        parcel.readTypedObject(GoodsGroup.GroupCREATOR)
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

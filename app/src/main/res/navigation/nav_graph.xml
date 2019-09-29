@@ -13,13 +13,11 @@
         <action android:id="@+id/action_menuFragment_to_usersFragment" app:destination="@id/usersFragment"/>
         <action android:id="@+id/action_menuFragment_to_scannerActivity" app:destination="@id/scannerActivity"/>
         <action android:id="@+id/action_menuFragment_to_selectionBeforeGoodFragment" app:destination="@id/selectionBeforeGoodFragment"/>
-        <action android:id="@+id/action_menuFragment_to_bookkeepingListFragment" app:destination="@id/bookkeepingListFragment"/>
     </fragment>
 
-    <fragment android:id="@+id/bookkeepingListFragment" android:name="ofat.my.ofat.ui.main.bookkeeping.BookkeepingListFragment"
-              android:label="BookkeepingListFragment">
-        <action android:id="@+id/action_bookkeepingListFragment_to_bookkeeperCreateFragment" app:destination="@id/bookkeeperCreateFragment"/>
-    </fragment>
+    <fragment android:id="@+id/getBookkeeperFragment" android:name="ofat.my.ofat.ui.main.bookkeeping.GetBookkeeperFragment"
+              android:label="GetBookkeeperFragment"/>
+
 
     <fragment android:id="@+id/selectionBeforeGoodFragment" android:name="ofat.my.ofat.ui.main.goods.SelectionBeforeGoodFragment"
               android:label="SelectionBeforeGoodFragment">
@@ -39,8 +37,8 @@
     <fragment android:id="@+id/bookkeeperCreateFragment" android:name="ofat.my.ofat.ui.main.bookkeeping.BookkeeperCreateFragment"
               android:label="BookkeeperCreateFragment"/>
 
-    <fragment android:id="@+id/bookkeeperSelectFragment" android:name="ofat.my.ofat.ui.main.bookkeeping.SelectBookkeeperFragment"
-              android:label="SelectBookkeeperFragment"/>
+    <fragment android:id="@+id/bookkeepingListFragment" android:name="ofat.my.ofat.ui.main.bookkeeping.BookkeepingFragment"
+              android:label="BookkeepingListFragment"/>
 
     <fragment android:id="@+id/goodsFragment" android:name="ofat.my.ofat.ui.main.goods.GoodsFragment"
               android:label="GoodsFragment">
@@ -64,6 +62,9 @@
 
     <fragment android:id="@+id/fastTxScFragment" android:name="ofat.my.ofat.ui.main.transaction.FastTxScFragment"
               android:label="FastTxScFragment"/>
+
+    <fragment android:id="@+id/findBkGoodCamFragment" android:name="ofat.my.ofat.ui.main.bookkeeping.FindBkGoodCamFragment"
+              android:label="FindBkGoodCamFragment"/>
 
     <fragment android:id="@+id/fastTxCartQuantityFragment" android:name="ofat.my.ofat.ui.main.transaction.CartQuantityFragment"
               android:label="CartQuantityFragment">

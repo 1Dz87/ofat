@@ -1,11 +1,9 @@
 package ofat.my.ofat.ui.main.goods
 
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ofat.my.ofat.OfatApplication
 import ofat.my.ofat.Util.CollectionUtils
-import ofat.my.ofat.Util.UtilUI
 import ofat.my.ofat.api.response.GetGoodResponse
 import ofat.my.ofat.exception.ConnectionException
 import ofat.my.ofat.exception.OfatCommonException
