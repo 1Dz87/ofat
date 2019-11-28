@@ -1,38 +1,28 @@
 package ofat.my.ofat.ui.main.transaction
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.view.*
-import androidx.fragment.app.Fragment
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ofat.my.ofat.MainActivity
-import ofat.my.ofat.OfatApplication
-
 import ofat.my.ofat.R
+import ofat.my.ofat.Util.CollectionUtils
+import ofat.my.ofat.model.Good
+import ofat.my.ofat.persistence.OfatDatabase
 import ofat.my.ofat.ui.main.FoundListViewModel
 import ofat.my.ofat.ui.main.goods.GoodViewModel
 import timber.log.Timber
-import android.view.LayoutInflater
-import androidx.core.content.ContextCompat
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import ofat.my.ofat.Util.CollectionUtils
-import ofat.my.ofat.model.Good
-import ofat.my.ofat.permission.requestCameraPermission
-import ofat.my.ofat.persistence.OfatDatabase
 
 
 class FastTxScFragment : Fragment() {

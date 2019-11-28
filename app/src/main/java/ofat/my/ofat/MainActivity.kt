@@ -21,7 +21,14 @@ import ofat.my.ofat.ui.main.MainViewModel
 import ofat.my.ofat.ui.main.goods.GoodViewModel
 import timber.log.Timber
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
+import ofat.my.ofat.persistence.Synchronizer
+import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
@@ -43,6 +50,9 @@ class MainActivity : AppCompatActivity() {
             ) !== PackageManager.PERMISSION_GRANTED
         ) {
             requestExternalStoragePermission(this)
+        }
+        thread {
+            synchronizeDataBase()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
@@ -238,27 +248,18 @@ class MainActivity : AppCompatActivity() {
         }
         super.onConfigurationChanged(newConfig)
     }
-/*
-    private fun onFinancesClick(navController: NavController) {
-        val call = OfatApplication.bookkeeperApi?.getBookkeepersSV()
-        call?.enqueue(object : Callback<GetBookkeepersSVResponse> {
-            @SuppressLint("ThrowableNotAtBeginning", "TimberExceptionLogging")
-            override fun onFailure(call: Call<GetBookkeepersSVResponse>, t: Throwable) {
-                Toast.makeText(this@MainActivity, "Ошибка сервера.", Toast.LENGTH_SHORT).show()
-                Timber.e(t, t.message, t.cause)
-            }
 
-            override fun onResponse(
-                call: Call<GetBookkeepersSVResponse>,
-                response: Response<GetBookkeepersSVResponse>
-            ) {
-                if (response.body()?.success != null) {
-                    foundModel.foundList.value = response.body()?.success as MutableCollection<ShortView>
-                    navController.navigate(R.id.foundListFragment)
-                } else {
-                    Toast.makeText(this@MainActivity, "Группа не найдена.", Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
-    }*/
+    private fun synchronizeDataBase() {
+        val synhronizeReq: PeriodicWorkRequest =
+            PeriodicWorkRequest.Builder(Synchronizer::class.java, 1, TimeUnit.DAYS).build()
+        WorkManager.getInstance(this).enqueue(synhronizeReq)
+//        WorkManager.getInstance(this).getWorkInfoByIdLiveData(synhronizeReq.id)
+//            .observe(this, androidx.lifecycle.Observer { workInfo ->
+//                if (workInfo == null || workInfo.state != WorkInfo.State.SUCCEEDED) {
+//                    Toast.makeText(this, "Ошибка синхронизации базы данных", Toast.LENGTH_LONG).show()
+//                } else {
+//                    Toast.makeText(this, "Синхронизирована база данных", Toast.LENGTH_LONG).show()
+//                }
+//            })
+    }
 }

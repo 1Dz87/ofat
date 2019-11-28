@@ -47,7 +47,8 @@ dependencies {
     implementation "com.camerakit:camerakit:$camerakit_version"
     implementation "com.camerakit:jpegkit:$jpeg_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
-    implementation "com.google.android.gms:play-services:12.0.1"
+    //implementation "com.google.android.gms:play-services:12.0.1"
+    implementation "com.google.android.gms:play-services-vision:18.0.0"
     implementation "androidx.legacy:legacy-support-v4:$legacy_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
@@ -55,7 +56,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation "com.github.bmelnychuk:atv:$atv_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
-
+    implementation "androidx.work:work-runtime-ktx:$work_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"

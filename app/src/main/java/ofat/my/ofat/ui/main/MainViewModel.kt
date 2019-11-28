@@ -2,15 +2,10 @@ package ofat.my.ofat.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ofat.my.ofat.OfatApplication
 import ofat.my.ofat.R
-import ofat.my.ofat.api.response.GetGoodResponse
 import ofat.my.ofat.model.Good
 import ofat.my.ofat.model.ShortView
 import ofat.my.ofat.model.User
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainViewModel : ViewModel() {
 

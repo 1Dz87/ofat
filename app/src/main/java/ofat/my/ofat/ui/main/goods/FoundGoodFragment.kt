@@ -17,14 +17,11 @@ import ofat.my.ofat.MainActivity
 import ofat.my.ofat.OfatApplication
 import ofat.my.ofat.R
 import ofat.my.ofat.Util.DateUtil
-import ofat.my.ofat.Util.OfatConstants
-import ofat.my.ofat.Util.OfatInteractionException
 import ofat.my.ofat.Util.UtilUI
 import ofat.my.ofat.api.response.DeleteGoodResponse
 import ofat.my.ofat.api.response.GetGoodResponse
 import ofat.my.ofat.model.Good
 import ofat.my.ofat.ui.main.FoundListViewModel
-import ofat.my.ofat.ui.main.MainViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

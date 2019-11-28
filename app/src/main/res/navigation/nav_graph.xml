@@ -82,6 +82,11 @@
                 app:destination="@id/foundGoodFragment"/>
     </fragment>
 
+    <fragment android:id="@+id/viewTxFragment" android:name="ofat.my.ofat.ui.main.transaction.ViewTxFragment"
+              android:label="ViewTxFragment">
+        <argument android:name="selectedTx"/>
+    </fragment>
+
     <activity android:id="@+id/scannerActivity" android:name="ofat.my.ofat.ui.main.photo.TakeBarcodeActivity"
                                                          android:label="ScannerActivity"/>
 

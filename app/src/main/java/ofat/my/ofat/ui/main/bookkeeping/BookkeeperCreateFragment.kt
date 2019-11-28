@@ -54,11 +54,17 @@ class BookkeeperCreateFragment : Fragment() {
 
     private lateinit var btBackFromTemplate: Button
 
-    private lateinit var viewGroupBk: ViewGroup
-
     private var goodId: Long? = null
 
     private var userId: Long? = null
+
+    val clearGoodViewModel: () -> Unit = {
+        bookkeepersViewModel.queryGood.value = null
+    }
+
+    val clearUserViewModel: () -> Unit = {
+        bookkeepersViewModel.queryUser.value = null
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,17 +79,23 @@ class BookkeeperCreateFragment : Fragment() {
         bookkeepersViewModel = ViewModelProviders.of(activity!!).get(BookkeepersViewModel::class.java)
         val binding: FragmentBookkeeperCreateBinding = DataBindingUtil.inflate(this.layoutInflater, R.layout.fragment_bookkeeper_create, container, false)
         binding.viewModel = bookkeepersViewModel
-        setViewModelLsteners()
         initView()
+        setViewModelLsteners()
         (activity as MainActivity).setCurrentTitle(R.string.create_template)
     }
 
     private fun setViewModelLsteners() {
         bookkeepersViewModel.queryGood.observe(this, Observer {
-            goodId = it.id
+            goodId = it?.id
+            if (it != null) {
+                btGood.setText(it.view)
+            }
         })
         bookkeepersViewModel.queryUser.observe(this, Observer {
-            userId = it.id
+            userId = it?.id
+            if (it != null) {
+                btUser.setText(it.view)
+            }
         })
     }
 
@@ -94,8 +106,9 @@ class BookkeeperCreateFragment : Fragment() {
         initGoodsGroupsNamesList()
 
         btGood = view?.findViewById(R.id.queryGoodET)!!
-        UtilUI.fieldAsButton(btGood) {
-            view?.findNavController()?.navigate(R.id.findBkGoodCamFragment) }
+        UtilUI.fieldAsButton(btGood, {
+            view?.findNavController()?.navigate(R.id.findBkGoodCamFragment) },
+            clearGoodViewModel)
 
         btDateFrom = view?.findViewById(R.id.queryDateETF)!!
         UtilUI.setDateToField(btDateFrom, activity!!)
@@ -104,9 +117,9 @@ class BookkeeperCreateFragment : Fragment() {
         UtilUI.setDateToField(btDateTo, activity!!)
 
         btUser = view?.findViewById(R.id.queryUserET)!!
-        UtilUI.fieldAsButton(btUser) {
-            getUsersList()
-            view?.findNavController()?.navigate(R.id.foundListFragment) }
+        UtilUI.fieldAsButton(btUser, {
+            getUsersList() }, clearUserViewModel)
+
 
         btCreateTemplate = view?.findViewById(R.id.btCreateTemplate)!!
         btCreateTemplate.setOnClickListener {
@@ -146,6 +159,7 @@ class BookkeeperCreateFragment : Fragment() {
                 UtilUI.showProgress(progress)
                 if (response.body() != null && response.body()?.success != null) {
                     viewModel.foundList.value = response.body()?.success as MutableList<ShortView>
+                    view?.findNavController()?.navigate(R.id.foundListFragment)
                 } else if (response.body() != null && response.body()?.errors != null) {
                     Toast.makeText(context, response.body()?.errors, Toast.LENGTH_SHORT).show()
                 } else {

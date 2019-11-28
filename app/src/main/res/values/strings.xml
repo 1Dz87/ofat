@@ -83,5 +83,12 @@
     <string name="query_user">Выбрать пользователя</string>
     <string name="select_group">Выбрать группу</string>
     <string name="create">Создать</string>
+    <string name="debit">Дебит:</string>
+    <string name="credit">Кредит:</string>
+    <string name="saldo">Сальдо:</string>
+    <string name="tx_number">Номер транзакции</string>
+    <string name="txPrice">Цена</string>
+    <string name="quantity">Количество:</string>
+    <string name="tx_seller">Продавец:</string>
 
 </resources>

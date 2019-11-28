@@ -10,6 +10,9 @@ import retrofit2.http.Query
 
 interface GoodsApi {
 
+    @GET("synchronizeGoods")
+    fun sync() : Call<GoodsSyncResponse>
+
     @POST("getGoods")
     fun getGoods(@Body fields: Map<String, @JvmSuppressWildcards Any?>): Call<GetGoodShortViewResponse>
 

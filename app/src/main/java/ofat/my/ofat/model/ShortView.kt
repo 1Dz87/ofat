@@ -1,6 +1,7 @@
 package ofat.my.ofat.model
 
 import android.content.res.ColorStateList
+import android.os.Parcel
 import android.os.Parcelable
 import android.text.InputType
 import android.widget.TableRow
@@ -13,7 +14,7 @@ import ofat.my.ofat.ui.main.FoundListFragment
 data class ShortView(
     var view: String = "",
     var id: Long = 0L,
-    var barcode: String?,
+    var barcode: String? = "",
     var className: String = ""
 ) : Parcelable {
     fun makeTextView(
@@ -25,7 +26,8 @@ data class ShortView(
         when (this.className) {
             Good::class.java.simpleName -> textView.setOnClickListener(FoundListFragment.onGoodClick(this))
             GoodsGroup::class.java.simpleName -> textView.setOnClickListener(FoundListFragment.onGoodGroupClick(this))
-            QueryBookRequest::class.java.simpleName -> textView.setOnClickListener(FoundListFragment.onUserClick(this))
+            User::class.java.simpleName -> textView.setOnClickListener(FoundListFragment.onUserClick(this))
+            Transaction::class.java.simpleName -> textView.setOnClickListener(FoundListFragment.onTransactionClick(this))
         }
     }
 

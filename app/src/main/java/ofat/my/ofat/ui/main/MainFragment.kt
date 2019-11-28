@@ -1,29 +1,30 @@
 package ofat.my.ofat.ui.main
 
-import androidx.lifecycle.ViewModelProviders
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.google.android.material.textfield.TextInputEditText
+import com.google.gson.GsonBuilder
 import ofat.my.ofat.MainActivity
 import ofat.my.ofat.OfatApplication
 import ofat.my.ofat.R
 import ofat.my.ofat.Util.ExtractUtil
 import ofat.my.ofat.Util.UtilUI
 import ofat.my.ofat.api.response.AuthResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import android.app.Activity
-import android.content.Context
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
-
+import okhttp3.Credentials
+import okhttp3.HttpUrl
+import okhttp3.OkHttpClient
+import retrofit2.*
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainFragment : androidx.fragment.app.Fragment() {
@@ -39,6 +40,8 @@ class MainFragment : androidx.fragment.app.Fragment() {
     private lateinit var viewModel: MainViewModel
 
     private lateinit var progress: ProgressBar
+
+    private lateinit var creds: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,13 +71,13 @@ class MainFragment : androidx.fragment.app.Fragment() {
         btLogin.setOnClickListener {
             val loginValue = ExtractUtil.v(login)
             val passValue = ExtractUtil.v(password)
-            val request: MutableMap<String, String> = mutableMapOf()
             if (loginValue != null && passValue != null) {
-                request["login"] = loginValue
-                request["password"] = passValue
+                creds = Credentials.basic(loginValue, passValue)
+                OfatApplication.httpClient = makeHttpClient()
+                apiCreation()
+                loginProcess()
                 password.text = null
                 hideKeyboardFrom(context!!, view!!)
-                loginProcess(request)
             } else {
                 Toast.makeText(context, "Не заполнены обязательные поля.", Toast.LENGTH_SHORT).show()
             }
@@ -85,13 +88,8 @@ class MainFragment : androidx.fragment.app.Fragment() {
         }
     }
 
-    fun hideKeyboardFrom(context: Context, view: View) {
-        val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    private fun loginProcess(request: MutableMap<String, String>) {
-        val call = OfatApplication.authApi?.login(request)
+    private fun loginProcess() {
+        val call = OfatApplication.authApi?.login(creds)
         UtilUI.showProgress(progress)
         call?.enqueue(object : Callback<AuthResponse> {
             override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
@@ -102,9 +100,9 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
                 UtilUI.showProgress(progress)
-                if((response.body() as AuthResponse).success != null) {
-                    val user = (response.body() as AuthResponse).success!!
-                    OfatApplication.currentUser = user
+                if ((response.body() as AuthResponse).success != null) {
+                    val user = (response.body() as AuthResponse).success
+                    OfatApplication.creds = creds
                     viewModel.user.postValue(user)
                     (activity as MainActivity).changeMenuNavigatorOnLogin()
                     view?.findNavController()?.navigate(R.id.menuFragment)
@@ -117,6 +115,41 @@ class MainFragment : androidx.fragment.app.Fragment() {
                 }
             }
         })
+    }
+
+    private fun hideKeyboardFrom(context: Context, view: View) {
+        val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    private fun makeHttpClient(): OkHttpClient {
+        return OkHttpClient().newBuilder().addInterceptor {
+            val originalRequest = it.request()
+            val builder = originalRequest.newBuilder().header(
+                "Authorization",
+                creds
+            )
+            val newRequest = builder.build()
+            it.proceed(newRequest)
+        }.build()
+    }
+
+    private fun apiCreation() {
+        val retrofitBuilder = Retrofit.Builder()
+        retrofitBuilder.client(OfatApplication.httpClient!!)
+        retrofitBuilder.addConverterFactory(gsonConverterFactory())
+        val serverUrl = "192.168.0.103:8080"
+        val httpUrl = HttpUrl.parse("http://$serverUrl/ofat/")
+        retrofitBuilder.baseUrl(httpUrl!!)
+        val retrofit = retrofitBuilder.build()
+        OfatApplication.makeApis(retrofit)
+    }
+
+    private fun gsonConverterFactory(): Converter.Factory {
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+        return GsonConverterFactory.create(gson)
     }
 }
 

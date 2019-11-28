@@ -20,6 +20,11 @@ class GetGoodResponse: Response() {
     var errors: String? = null
 }
 
+class GoodsSyncResponse: Response() {
+    var success: List<Good>? = null
+    var errors: String? = null
+}
+
 class AddGoodResponse: Response() {
     var success: Map<Long, String>? = null
     var errors: String? = null
@@ -52,6 +57,11 @@ class GoodsGroupSVResponse: Response() {
 
 class TransactionResponse: Response() {
     var success: Map<String, Transaction>? = null
+    var errors: String? = null
+}
+
+class SingleTxResponse: Response() {
+    var success: Transaction? = null
     var errors: String? = null
 }
 

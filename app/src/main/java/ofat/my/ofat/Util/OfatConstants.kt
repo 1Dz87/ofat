@@ -1,7 +1,5 @@
 package ofat.my.ofat.Util
 
-import android.util.SparseIntArray
-
 object OfatConstants {
 
     val EMPTY: String = ""
@@ -21,5 +19,7 @@ object OfatConstants {
     val CANCEL = "Отмена"
 
     val HORIZONTAL_DIVIDER = " | "
+
+    val TX = "transactions"
 
 }

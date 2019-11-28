@@ -10,12 +10,14 @@ data class QueryBookResponse(
     val debit: Double?,
     val credit: Double?,
     val balance: Double?,
+    val transactions: List<ShortView>?,
     val commonInfo: Map<String, Any>?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Double::class.java.classLoader) as? Double,
         parcel.readValue(Double::class.java.classLoader) as? Double,
         parcel.readValue(Double::class.java.classLoader) as? Double,
+        parcel.readValue(List::class.java.classLoader) as? List<ShortView>,
         readMap(parcel)
     )
 
@@ -23,6 +25,7 @@ data class QueryBookResponse(
         parcel.writeValue(debit)
         parcel.writeValue(credit)
         parcel.writeValue(balance)
+        parcel.writeValue(transactions)
         writeMap(parcel, commonInfo)
     }
 

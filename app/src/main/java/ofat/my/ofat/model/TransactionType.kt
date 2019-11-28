@@ -3,13 +3,15 @@ package ofat.my.ofat.model
 import android.os.Parcel
 import android.os.Parcelable
 
-enum class TransactionType(private val displayValue: String?) : Parcelable {
+enum class TransactionType(val displayValue: String?) : Parcelable {
 
     EMPTY(""),
     IN("Покупка"),
     OUT("Продажа");
 
-    constructor(parcel: Parcel) : this(parcel.readString())
+    constructor(parcel: Parcel) : this(
+        parcel.readString()
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
     }

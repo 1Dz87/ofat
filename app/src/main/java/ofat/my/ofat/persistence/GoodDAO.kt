@@ -7,13 +7,13 @@ import androidx.room.Update
 import ofat.my.ofat.model.Good
 
 @Dao
-interface GoodDAO {
+interface GoodDAO : BaseDAO {
 
     @Query("SELECT * FROM good WHERE f_barcode = :barcode")
     fun getByBarcode(barcode: String): Good?
 
     @Query("SELECT * FROM good WHERE id = :id")
-    fun getById(id: Long): Good
+    fun getById(id: Long): Good?
 
     @Insert
     fun save(good: Good)

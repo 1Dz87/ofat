@@ -57,6 +57,14 @@ class FoundListFragment : Fragment() {
                 it.findNavController().navigateUp()
             }
         }
+
+        fun onTransactionClick(currElement: ShortView) : View.OnClickListener {
+            return View.OnClickListener {
+                val bundle = Bundle()
+                bundle.putString("selectedTx", currElement.id.toString())
+                it.findNavController().navigate(R.id.viewTxFragment, bundle)
+            }
+        }
     }
 
     override fun onCreateView(

@@ -30,4 +30,7 @@ interface GoodsGroupApi {
 
     @POST("updateGoodsGroup")
     fun updateGoodsGroup(@Body group: GoodsGroup) : Call<GoodsGroupResponse>
+
+    @GET("synchronizeGroups")
+    fun synchronizeGroups() : Call<GoodsGroupNamesResponse>
 }

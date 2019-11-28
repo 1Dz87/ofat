@@ -207,13 +207,14 @@ object UtilUI {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    fun fieldAsButton(editText: TextInputEditText?, func : () -> Unit?) {
+    fun fieldAsButton(editText: TextInputEditText?, func : () -> Unit?, onClearClick: () -> Unit) {
         editText?.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                 if (event?.action == MotionEvent.ACTION_UP) {
                     val side = editText.right - editText.compoundDrawables[DRAWABLE_RIGHT].bounds.width()
                     if (event.rawX >= side) {
                         editText.setText("")
+                        onClearClick()
                     } else {
                         func()
                     }
