@@ -35,5 +35,9 @@ data class GoodsGroup(
         override fun newArray(size: Int): Array<GoodsGroup?> {
             return arrayOfNulls(size)
         }
+
+        fun createEmpty() : GoodsGroup {
+            return GoodsGroup(0L, "", listOf())
+        }
     }
 }

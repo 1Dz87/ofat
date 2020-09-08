@@ -40,7 +40,7 @@ data class Transaction(
         parcel.writeDouble(quantity!!)
         parcel.writeValue(type)
         parcel.writeValue(partner)
-        parcel.writeLong(user?.id!!)
+        parcel.writeParcelable(user, flags)
         parcel.writeString(comment)
     }
 

@@ -25,6 +25,8 @@ import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import ofat.my.ofat.MainActivity
+import ofat.my.ofat.Util.OfatConstants
+import ofat.my.ofat.Util.WebUtil
 
 class DefaultScannerFragment : Fragment() {
 
@@ -103,10 +105,10 @@ class DefaultScannerFragment : Fragment() {
                     foundViewModel.foundList.value = response.body()?.success as MutableCollection<ShortView>
                     view?.findNavController()?.navigate(R.id.foundListFragment)
                 } else {
-                    Toast.makeText(context, "Товар не найден.", Toast.LENGTH_SHORT).show()
-                    val bundle = Bundle()
-                    bundle.putString("barcode", rawValue)
-                    view?.findNavController()?.navigate(R.id.goodsFragment, bundle)
+                    Toast.makeText(context, WebUtil.checkUnauthCode(response, "Товар не найден.") { val bundle = Bundle()
+                        bundle.putString("barcode", rawValue)
+                        view?.findNavController()?.navigate(R.id.goodsFragment, bundle) }, Toast.LENGTH_SHORT).show()
+
                 }
             }
         })

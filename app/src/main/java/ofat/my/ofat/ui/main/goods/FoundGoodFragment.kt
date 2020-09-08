@@ -17,7 +17,9 @@ import ofat.my.ofat.MainActivity
 import ofat.my.ofat.OfatApplication
 import ofat.my.ofat.R
 import ofat.my.ofat.Util.DateUtil
+import ofat.my.ofat.Util.OfatConstants
 import ofat.my.ofat.Util.UtilUI
+import ofat.my.ofat.Util.WebUtil
 import ofat.my.ofat.api.response.DeleteGoodResponse
 import ofat.my.ofat.api.response.GetGoodResponse
 import ofat.my.ofat.model.Good
@@ -95,7 +97,7 @@ class FoundGoodFragment : Fragment() {
                         Toast.makeText(this@FoundGoodFragment.context, response.body()?.errors, Toast.LENGTH_SHORT).show()
                         UtilUI.returnToMenu(view)
                     }
-                    Toast.makeText(this@FoundGoodFragment.context,"Неизвестная ошибка", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, WebUtil.checkUnauthCode(response, OfatConstants.UNKNOWN_ERROR, null), Toast.LENGTH_SHORT).show()
                     UtilUI.returnToMenu(view)
                 }
             }
@@ -151,7 +153,7 @@ class FoundGoodFragment : Fragment() {
                             Toast.makeText(this@FoundGoodFragment.context, response.body()?.errors, Toast.LENGTH_SHORT).show()
                             UtilUI.returnToMenu(view)
                         }
-                        Toast.makeText(this@FoundGoodFragment.context,"Неизвестная ошибка", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, WebUtil.checkUnauthCode(response, OfatConstants.UNKNOWN_ERROR, null), Toast.LENGTH_SHORT).show()
                         UtilUI.returnToMenu(view)
                     }
                 }

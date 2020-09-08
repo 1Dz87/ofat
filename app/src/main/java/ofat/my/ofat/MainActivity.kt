@@ -1,32 +1,32 @@
 package ofat.my.ofat
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.google.android.material.navigation.NavigationView
 import ofat.my.ofat.Util.Module
+import ofat.my.ofat.api.response.AuthLogoutResponse
 import ofat.my.ofat.permission.requestExternalStoragePermission
+import ofat.my.ofat.persistence.Synchronizer
 import ofat.my.ofat.ui.main.FoundListViewModel
 import ofat.my.ofat.ui.main.MainViewModel
 import ofat.my.ofat.ui.main.goods.GoodViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import timber.log.Timber
-import androidx.core.view.GravityCompat
-import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.Navigation
-import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkInfo
-import androidx.work.WorkManager
-import ofat.my.ofat.persistence.Synchronizer
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 import kotlin.system.exitProcess
@@ -261,5 +261,22 @@ class MainActivity : AppCompatActivity() {
 //                    Toast.makeText(this, "Синхронизирована база данных", Toast.LENGTH_LONG).show()
 //                }
 //            })
+    }
+
+    override fun onStop() {
+        /*supportFragmentManager.fragments.forEach {
+            if (it != null) {
+                supportFragmentManager.beginTransaction().remove(it).commit()
+            }
+        }*/
+        val call = OfatApplication.authApi?.logout()
+        call?.enqueue(object : Callback<AuthLogoutResponse> {
+            override fun onFailure(call: Call<AuthLogoutResponse>, t: Throwable) {
+            }
+
+            override fun onResponse(call: Call<AuthLogoutResponse>, response: Response<AuthLogoutResponse>) {
+            }
+        })
+        super.onStop()
     }
 }

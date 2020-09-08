@@ -15,7 +15,9 @@ import com.google.android.material.textfield.TextInputEditText
 import ofat.my.ofat.OfatApplication
 import ofat.my.ofat.R
 import ofat.my.ofat.Util.ExtractUtil
+import ofat.my.ofat.Util.OfatConstants
 import ofat.my.ofat.Util.UtilUI
+import ofat.my.ofat.Util.WebUtil
 import ofat.my.ofat.api.UserApi
 import ofat.my.ofat.api.response.CreateUserResponse
 import ofat.my.ofat.model.User
@@ -116,8 +118,8 @@ class UsersFragment : Fragment() {
         request.email = emailStr
         request.login = ExtractUtil.v(login)!!
         request.password = passwordStr
-        request.salary = ExtractUtil.v(salary)!!.toDouble()
-        request.percent = ExtractUtil.v(percent)!!.toDouble()
+        request.salary = ExtractUtil.v(salary)?.toDouble()
+        request.percent = ExtractUtil.v(percent)?.toDouble()
         val call = OfatApplication.userApi?.addClient(request)
         UtilUI.showProgress(progress)
         call?.enqueue(object : Callback<CreateUserResponse> {
@@ -132,7 +134,7 @@ class UsersFragment : Fragment() {
                     if (response.body()?.errors != null) {
                         Toast.makeText(view?.context, response.body()?.errors, Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, "Неизвестная ошибка", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, WebUtil.checkUnauthCode(response, OfatConstants.UNKNOWN_ERROR, null), Toast.LENGTH_SHORT).show()
                     }
                 }
             }

@@ -14,6 +14,8 @@ import ofat.my.ofat.MainActivity
 import ofat.my.ofat.OfatApplication
 
 import ofat.my.ofat.R
+import ofat.my.ofat.Util.OfatConstants
+import ofat.my.ofat.Util.WebUtil
 import ofat.my.ofat.api.response.GetGoodShortViewResponse
 import ofat.my.ofat.api.response.GoodsGroupSVResponse
 import ofat.my.ofat.model.ShortView
@@ -78,7 +80,7 @@ class GoodsGroupSetupFragment : Fragment() {
                     foundViewModel.foundList.value = response.body()?.success as MutableCollection<ShortView>
                     view?.findNavController()?.navigate(R.id.foundListFragment)
                 } else {
-                    Toast.makeText(context, "Группа не найдена.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, WebUtil.checkUnauthCode(response, "Группа не найдена.", null), Toast.LENGTH_SHORT).show()
                 }
             }
         })

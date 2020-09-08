@@ -16,6 +16,7 @@ import ofat.my.ofat.R
 import ofat.my.ofat.Util.ExtractUtil
 import ofat.my.ofat.Util.OfatConstants
 import ofat.my.ofat.Util.UtilUI
+import ofat.my.ofat.Util.WebUtil
 import ofat.my.ofat.api.response.GoodsGroupResponse
 import ofat.my.ofat.model.GoodsGroup
 import ofat.my.ofat.persistence.OfatDatabase
@@ -79,7 +80,7 @@ class AddGroupFragment : Fragment() {
                         navController?.popBackStack(R.id.menuFragment, false)
                         navController?.navigate(R.id.menuFragment)
                     } else {
-                        Toast.makeText(context, OfatConstants.UNKNOWN_ERROR, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, WebUtil.checkUnauthCode(response, OfatConstants.UNKNOWN_ERROR, null), Toast.LENGTH_SHORT).show()
                     }
                 }
             })

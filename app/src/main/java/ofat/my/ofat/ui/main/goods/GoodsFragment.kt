@@ -21,7 +21,6 @@ import ofat.my.ofat.api.response.GetGoodShortViewResponse
 import ofat.my.ofat.ui.main.FoundListViewModel
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.Response
 import java.text.SimpleDateFormat
 import android.widget.ArrayAdapter
 import android.widget.ProgressBar
@@ -30,6 +29,7 @@ import ofat.my.ofat.Util.*
 import ofat.my.ofat.api.response.GoodsGroupNamesResponse
 import ofat.my.ofat.model.*
 import ofat.my.ofat.persistence.OfatDatabase
+import retrofit2.Response
 
 
 class GoodsFragment : Fragment() {
@@ -121,7 +121,7 @@ class GoodsFragment : Fragment() {
                 } else if (response.body() != null && response.body()?.errors != null) {
                     Toast.makeText(context, response.body()?.errors, Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(context, OfatConstants.UNKNOWN_ERROR, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, WebUtil.checkUnauthCode(response, OfatConstants.UNKNOWN_ERROR, null), Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -227,7 +227,7 @@ class GoodsFragment : Fragment() {
                     } else if (response.body() != null && response.body()?.errors != null) {
                         Toast.makeText(context, response.body()?.errors, Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, OfatConstants.UNKNOWN_ERROR, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, WebUtil.checkUnauthCode(response, OfatConstants.UNKNOWN_ERROR, null), Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -258,7 +258,7 @@ class GoodsFragment : Fragment() {
                             }
                         }
                         response.body()?.errors != null -> Toast.makeText(this@GoodsFragment.context, response.body()?.errors, Toast.LENGTH_SHORT).show()
-                        else -> Toast.makeText(this@GoodsFragment.context, OfatConstants.UNKNOWN_ERROR, Toast.LENGTH_SHORT).show()
+                        else -> Toast.makeText(context, WebUtil.checkUnauthCode(response, OfatConstants.UNKNOWN_ERROR, null), Toast.LENGTH_SHORT).show()
                     }
                     view?.findNavController()?.navigate(R.id.menuFragment)
                 }
@@ -281,7 +281,7 @@ class GoodsFragment : Fragment() {
         good.sellQuantity = ExtractUtil.v(sellQuantityET!!)?.toDoubleOrNull()
         good.stored = ExtractUtil.v(storedET!!)?.toIntOrNull()
         good.status = GoodStatus.ACTIVE
-        good.group = if (goodsGroupSpinner?.selectedItem != null) goodsGroupSpinner?.selectedItem as GoodsGroup else null
+        good.group = if (goodsGroupSpinner?.selectedItem != null) goodsGroupSpinner?.selectedItem as GoodsGroup else GoodsGroup.createEmpty()
         return good
     }
 

@@ -19,6 +19,7 @@ import ofat.my.ofat.OfatApplication
 import ofat.my.ofat.R
 import ofat.my.ofat.Util.ExtractUtil
 import ofat.my.ofat.Util.UtilUI
+import ofat.my.ofat.api.response.AuthLogoutResponse
 import ofat.my.ofat.api.response.AuthResponse
 import okhttp3.Credentials
 import okhttp3.HttpUrl
@@ -95,7 +96,6 @@ class MainFragment : androidx.fragment.app.Fragment() {
             override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
                 UtilUI.showProgress(progress)
                 Toast.makeText(context, "Ошибка сервера.", Toast.LENGTH_SHORT).show()
-                view?.findNavController()?.navigate(R.id.menuFragment)
             }
 
             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {

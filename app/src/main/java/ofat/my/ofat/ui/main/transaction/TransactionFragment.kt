@@ -19,6 +19,7 @@ import ofat.my.ofat.R
 import ofat.my.ofat.Util.ExtractUtil
 import ofat.my.ofat.Util.OfatConstants
 import ofat.my.ofat.Util.UtilUI
+import ofat.my.ofat.Util.WebUtil
 import ofat.my.ofat.api.response.TransactionResponse
 import ofat.my.ofat.model.Good
 import ofat.my.ofat.model.Transaction
@@ -140,7 +141,7 @@ class TransactionFragment : Fragment() {
                             if (response.body() != null && response.body()?.errors != null) {
                                 Toast.makeText(context, response.body()?.errors, Toast.LENGTH_SHORT).show()
                             } else {
-                                Toast.makeText(context, OfatConstants.UNKNOWN_ERROR, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, WebUtil.checkUnauthCode(response, OfatConstants.UNKNOWN_ERROR, null), Toast.LENGTH_SHORT).show()
                             }
                         }
                     }

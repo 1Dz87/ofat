@@ -10,6 +10,11 @@ class AuthResponse: Response() {
     var errors: String? = null
 }
 
+class AuthLogoutResponse: Response() {
+    var success: String? = null
+    var errors: String? = null
+}
+
 class CreateUserResponse: Response() {
     var success: String? = null
     var errors: String? = null
